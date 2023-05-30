@@ -18,9 +18,12 @@
         android:theme="@style/Theme.MyTravel"
         tools:targetApi="31">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.setting.SettingActivity"
             android:exported="false"
-            android:label="@string/setting"/>
+            android:label="@string/setting" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
