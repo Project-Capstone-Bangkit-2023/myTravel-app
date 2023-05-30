@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "914465343472",
+    "project_id": "my-travel-e4a3d",
+    "storage_bucket": "my-travel-e4a3d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914465343472:android:7e977e625e4a3232a0ff35",
+        "android_client_info": {
+          "package_name": "com.capstoneproject.mytravel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914465343472-bvm5vbru6mlgfk2hki6l5juluvrbt1hs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPaQ_qAGGsxYzjVOR77AYxIh9c1eml-vQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914465343472-bvm5vbru6mlgfk2hki6l5juluvrbt1hs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
