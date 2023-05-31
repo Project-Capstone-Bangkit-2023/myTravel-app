@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
@@ -13,8 +14,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.capstoneproject.mytravel.databinding.ActivityMainBinding
+import com.capstoneproject.mytravel.model.UserModel
 import com.capstoneproject.mytravel.model.UserPreference
-import com.capstoneproject.mytravel.ui.FirstSetupActivity
+import com.capstoneproject.mytravel.retrofit.User
+import com.capstoneproject.mytravel.ui.register.FirstSetupActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -50,10 +53,26 @@ class MainActivity : AppCompatActivity() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
+
+
         auth = Firebase.auth
         binding.signinButton.setOnClickListener {
             binding.progressBar.visibility = View.VISIBLE
-            signIn()
+
+            mainViewModel.loginProcess("")
+            val token = mainViewModel.token.value.toString()
+
+            println(token)
+            if(token == "Failed to Connect") {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Failed to Connect. Please check your internet connection",
+                    Toast.LENGTH_SHORT
+                ).show()
+                mainViewModel.isLoading.observe(this) { showLoading(it) }
+            }else{
+                signIn()
+            }
         }
     }
 
@@ -81,7 +100,6 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
-                setupViewModel()
                 val account = task.getResult(ApiException::class.java)!!
                 println(account.account)
                 println(account.id)
@@ -92,21 +110,22 @@ class MainActivity : AppCompatActivity() {
                 println(account.givenName)
                 println(account.photoUrl)
 
+                val name = account.displayName.toString()
+                val email = account.email.toString()
+                val photoUrl = account.photoUrl.toString()
                 mainViewModel.loginProcess(account.email.toString())
-                mainViewModel.token.observe(this){
-                    val token = it
+                val token = mainViewModel.token.value
 
-                    println(token)
-                    if(token != null){
-                        Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                        firebaseAuthWithGoogle(account.idToken!!)
-
-                    }else{
-
-                    }
+                if(token != null) {
+                    Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                    firebaseAuthWithGoogle(account.idToken!!)
+                }else{
+                    val data = UserModel(0, photoUrl, name, email, "location", 0, false, "")
+                    val intentToDetail = Intent(this@MainActivity, FirstSetupActivity::class.java)
+                    intentToDetail.putExtra("DATA", data)
+                    startActivity(intentToDetail)
+                    finish()
                 }
-                mainViewModel.isLoading.observe(this) { showLoading(it) }
-
             } catch (e: ApiException) {
                 Log.w(TAG, "Google sign in failed", e)
             }
@@ -144,5 +163,6 @@ class MainActivity : AppCompatActivity() {
     }
     companion object {
         private const val TAG = "LoginActivity"
+        var EXTRA_TOKEN = ""
     }
 }

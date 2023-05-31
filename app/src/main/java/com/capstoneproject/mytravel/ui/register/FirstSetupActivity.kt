@@ -1,27 +1,39 @@
-package com.capstoneproject.mytravel.ui
+package com.capstoneproject.mytravel.ui.register
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import com.capstoneproject.mytravel.HomeActivity
+import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.databinding.ActivityFirstSetupBinding
+import com.capstoneproject.mytravel.model.UserModel
+import com.capstoneproject.mytravel.model.UserPreference
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import java.util.*
 
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class FirstSetupActivity : AppCompatActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var geocoder: Geocoder
     private lateinit var binding: ActivityFirstSetupBinding
+    private lateinit var firstSetupViewModel: FirstSetupViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +45,28 @@ class FirstSetupActivity : AppCompatActivity() {
         geocoder = Geocoder(this, Locale.getDefault())
         getMyLastLocation()
 
+        setupViewModel()
+
+        val data = intent.getParcelableExtra<UserModel>("DATA")
+        val name = data?.name.toString()
+        val email = data?.email.toString()
         binding.btnNext.setOnClickListener(){
+            val location = "Jakarta Timur"
+            val age = 22
+            val catPref = "Bahari"
+            firstSetupViewModel.register(name,email, location,22, catPref)
             startActivity(Intent(this@FirstSetupActivity, HomeActivity::class.java))
             finish()
         }
+    }
 
+    private fun setupViewModel() {
+        firstSetupViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(UserPreference.getInstance(dataStore))
+        )[FirstSetupViewModel::class.java]
+
+        firstSetupViewModel.isLoading.observe(this) { showLoading(it) }
     }
 
     private val requestPermissionLauncher =
@@ -72,12 +101,19 @@ class FirstSetupActivity : AppCompatActivity() {
                 if (location != null) {
                     val lat = location.latitude
                     val lon = location.longitude
-                    println(lat)
-                    println(lon)
+
+                    EXTRA_LAT = lat
+                    EXTRA_LON = lon
 
                     val address = geocoder.getFromLocation(lat,lon,1)
+                    val city = address!![0].subAdminArea.toString()
+                    val thoroughFare = address[0].thoroughfare.toString()
+                    val displayAddress = "$city , $thoroughFare"
+
+                    EXTRA_LOCATION = displayAddress
+
                     println(address)
-                    binding.locationEditText.setText(address!![0].getAddressLine(0).toString())
+                    binding.locationEditText.setText(address[0].getAddressLine(0).toString())
                 } else {
                     Toast.makeText(
                         this@FirstSetupActivity,
@@ -95,5 +131,20 @@ class FirstSetupActivity : AppCompatActivity() {
             )
         }
     }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    companion object{
+        var EXTRA_LAT = 0.0
+        var EXTRA_LON = 0.0
+        var EXTRA_LOCATION = ""
+    }
+
 }
 
