@@ -25,9 +25,10 @@ interface ApiService {
         @Query("q") q: String
     ): Call<GithubResponse>
 
-    @GET("users/{username}/followers")
-    fun getFollower(
-        @Path("username") username : String
-    ): Call<List<FollowerResponseItem>>
+    @GET("profile/{email}")
+    fun getProfile(
+        @Header("Authorization") token : String,
+        @Path("email") email : String
+    ): Call<ProfileResponse>
 
 }

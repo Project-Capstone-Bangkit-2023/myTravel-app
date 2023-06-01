@@ -79,6 +79,12 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.isLoading.observe(this){
             showLoading(it)
         }
+
+        mainViewModel.getUser().observe(this) { user ->
+            if (user.isLogin) {
+                startActivity(Intent(this, HomeActivity::class.java))
+            }
+        }
     }
 
     private var resultLauncher = registerForActivityResult(
@@ -105,9 +111,10 @@ class MainActivity : AppCompatActivity() {
                     if (token != null) {
                         Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                         firebaseAuthWithGoogle(account.idToken!!)
+                        mainViewModel.getProfile(token, email, photoUrl)
                     }
                     else{
-                        val data = UserModel(0, photoUrl, name, email, "location", 0, false, "")
+                        val data = UserModel(0, photoUrl, name, email, "location", 0, "", false, "")
                         val intentToDetail = Intent(this@MainActivity, FirstSetupActivity::class.java)
                         intentToDetail.putExtra("DATA", data)
                         startActivity(intentToDetail)

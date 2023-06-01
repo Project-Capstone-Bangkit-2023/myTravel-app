@@ -11,6 +11,7 @@ data class  UserModel(
     val email: String,
     val location: String,
     val age: Int,
+    val cat_pref: String,
     val isLogin: Boolean,
     val token: String
 ): Parcelable

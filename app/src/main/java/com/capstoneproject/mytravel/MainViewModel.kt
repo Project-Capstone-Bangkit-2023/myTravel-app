@@ -5,6 +5,7 @@ import com.capstoneproject.mytravel.model.UserModel
 import com.capstoneproject.mytravel.model.UserPreference
 import com.capstoneproject.mytravel.retrofit.ApiConfig
 import com.capstoneproject.mytravel.retrofit.LoginResponse
+import com.capstoneproject.mytravel.retrofit.ProfileResponse
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,6 +40,37 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                _connectionFailed.value = true
+                _isLoading.value = false
+            }
+        })
+    }
+
+    fun getProfile(token: String, email: String, photoUrl: String){
+        _isLoading.value = true
+        val service = ApiConfig.getApiService().getProfile(token, email)
+        service.enqueue(object : Callback<ProfileResponse> {
+            override fun onResponse(
+                call: Call<ProfileResponse>,
+                response: Response<ProfileResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _isLoading.value = false
+                    val body = response.body()
+                    val name = body?.user?.name.toString()
+                    val emailBody = body?.user?.email.toString()
+                    val strId = body?.user?.id.toString()
+                    val id = strId.toInt()
+                    val location = body?.user?.location.toString()
+                    val catPref = body?.user?.catPref.toString()
+
+                    login(UserModel(id,photoUrl,name,emailBody,location,0,catPref,true,token))
+                } else {
+                    _isLoading.value = false
+                    _token.value = null
+                }
+            }
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
                 _connectionFailed.value = true
                 _isLoading.value = false
             }
