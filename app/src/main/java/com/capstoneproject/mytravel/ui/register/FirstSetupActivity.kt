@@ -33,6 +33,7 @@ class FirstSetupActivity : AppCompatActivity() {
     private lateinit var geocoder: Geocoder
     private lateinit var binding: ActivityFirstSetupBinding
     private lateinit var firstSetupViewModel: FirstSetupViewModel
+    private lateinit var location: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,15 +47,13 @@ class FirstSetupActivity : AppCompatActivity() {
         getMyLastLocation()
 
         setupViewModel()
-
         val data = intent.getParcelableExtra<UserModel>("DATA")
         val name = data?.name.toString()
         val email = data?.email.toString()
         binding.btnNext.setOnClickListener(){
-            val location = "Jakarta Timur"
-            val age = 22
+            val sendLoc = binding.locationEditText.text.toString()
             val catPref = "Bahari"
-            firstSetupViewModel.register(name,email, location,22, catPref)
+            firstSetupViewModel.register(name,email, sendLoc, catPref)
             startActivity(Intent(this@FirstSetupActivity, HomeActivity::class.java))
             finish()
         }
@@ -109,9 +108,10 @@ class FirstSetupActivity : AppCompatActivity() {
                     val city = address!![0].subAdminArea.toString()
                     val thoroughFare = address[0].thoroughfare.toString()
                     val displayAddress = "$city , $thoroughFare"
-
+                    this@FirstSetupActivity.location = displayAddress
                     EXTRA_LOCATION = displayAddress
 
+                    binding.locationEditText.setText(displayAddress)
                     println(address)
                     binding.locationEditText.setText(address[0].getAddressLine(0).toString())
                 } else {

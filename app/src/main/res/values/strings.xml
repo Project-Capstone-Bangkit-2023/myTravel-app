@@ -32,4 +32,11 @@
     <string name="email">Email</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nibh tellus molestie nunc non blandit. Blandit cursus risus at ultrices mi tempus. Gravida dictum fusce ut placerat orci nulla pellentesque. Eu lobortis elementum nibh tellus molestie. Quam id leo in vitae. Sed arcu non odio euismod lacinia. Amet commodo nulla facilisi nullam vehicula. In fermentum et sollicitudin ac orci phasellus egestas tellus. Nunc sed blandit libero volutpat sed cras ornare arcu dui. Ultrices mi tempus imperdiet nulla malesuada pellentesque elit.
     </string>
+
+    <string name="login_failed">Login Failed</string>
+    <string name="login_failed_text">Login gagal</string>
+    <string name="login_success">Login Success</string>
+    <string name="login_success_text">Selamat datang kembali</string>
+    <string name="next">Next</string>
+    <string name="close">Close</string>
 </resources>

@@ -18,9 +18,9 @@ class FirstSetupViewModel  : ViewModel() {
     private val _isRegisterSuccess = MutableLiveData<Boolean>()
     val isRegisterSuccess: LiveData<Boolean> = _isRegisterSuccess
 
-    fun register(name: String, email: String, location: String, age: Int, catPref: String){
+    fun register(name: String, email: String, location: String, catPref: String){
         _isLoading.value = true
-        val service = ApiConfig.getApiService().register(name, email, location, age, catPref)
+        val service = ApiConfig.getApiService().register(name, email, location, catPref)
         service.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,

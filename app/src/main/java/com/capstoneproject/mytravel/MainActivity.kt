@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -53,26 +54,10 @@ class MainActivity : AppCompatActivity() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-
-
         auth = Firebase.auth
         binding.signinButton.setOnClickListener {
             binding.progressBar.visibility = View.VISIBLE
-
-            mainViewModel.loginProcess("")
-            val token = mainViewModel.token.value.toString()
-
-            println(token)
-            if(token == "Failed to Connect") {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Failed to Connect. Please check your internet connection",
-                    Toast.LENGTH_SHORT
-                ).show()
-                mainViewModel.isLoading.observe(this) { showLoading(it) }
-            }else{
-                signIn()
-            }
+            signIn()
         }
     }
 
@@ -87,10 +72,12 @@ class MainActivity : AppCompatActivity() {
             ViewModelFactory(UserPreference.getInstance(dataStore))
         )[MainViewModel::class.java]
 
-        mainViewModel.getUser().observe(this) { user ->
-            if (user.isLogin) {
-                startActivity(Intent(this, HomeActivity::class.java))
-            }
+        mainViewModel.connectionFailed.observe(this){
+            alertShow(it)
+        }
+
+        mainViewModel.isLoading.observe(this){
+            showLoading(it)
         }
     }
 
@@ -114,18 +101,21 @@ class MainActivity : AppCompatActivity() {
                 val email = account.email.toString()
                 val photoUrl = account.photoUrl.toString()
                 mainViewModel.loginProcess(account.email.toString())
-                val token = mainViewModel.token.value
+                fun loginRegisterCondition(token: String?) {
+                    if (token != null) {
+                        Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                        firebaseAuthWithGoogle(account.idToken!!)
+                    }
+                    else{
+                        val data = UserModel(0, photoUrl, name, email, "location", 0, false, "")
+                        val intentToDetail = Intent(this@MainActivity, FirstSetupActivity::class.java)
+                        intentToDetail.putExtra("DATA", data)
+                        startActivity(intentToDetail)
+                        finish()
+                    }
+            }
+                mainViewModel.token.observe(this){ loginRegisterCondition(it) }
 
-                if(token != null) {
-                    Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                    firebaseAuthWithGoogle(account.idToken!!)
-                }else{
-                    val data = UserModel(0, photoUrl, name, email, "location", 0, false, "")
-                    val intentToDetail = Intent(this@MainActivity, FirstSetupActivity::class.java)
-                    intentToDetail.putExtra("DATA", data)
-                    startActivity(intentToDetail)
-                    finish()
-                }
             } catch (e: ApiException) {
                 Log.w(TAG, "Google sign in failed", e)
             }
@@ -153,7 +143,16 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
-
+    private fun alertShow(alertShow: Boolean) {
+        if (alertShow)
+            AlertDialog.Builder(this@MainActivity).apply {
+                setTitle(getString(R.string.login_failed))
+                setMessage(getString(R.string.login_failed_text))
+                setPositiveButton(getString(R.string.close)) { _, _ -> }
+                create()
+                show()
+            }
+    }
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE

@@ -17,7 +17,6 @@ interface ApiService {
         @Field("name") name: String,
         @Field("email") email: String,
         @Field("location") location: String,
-        @Field("age") age: Int,
         @Field("cat_pref") catPref: String
     ): Call<RegisterResponse>
 

@@ -1,6 +1,5 @@
 package com.capstoneproject.mytravel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.capstoneproject.mytravel.model.UserModel
 import com.capstoneproject.mytravel.model.UserPreference
@@ -17,15 +16,12 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isSuccessLogin = MutableLiveData<Boolean>()
-    val isSuccessLogin: LiveData<Boolean> = _isSuccessLogin
+    private val _connectionFailed = MutableLiveData<Boolean>()
+    val connectionFailed: LiveData<Boolean> = _connectionFailed
 
     private val _token = MutableLiveData<String?>()
     val token: LiveData<String?> = _token
 
-    init{
-        loginProcess("tes")
-    }
     fun loginProcess(email: String){
         _isLoading.value = true
         val service = ApiConfig.getApiService().login(email)
@@ -36,15 +32,14 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
             ) {
                 if (response.isSuccessful) {
                     _isLoading.value = false
-                    _token.value = "response.body()?.data?.token.toString()"
-
+                    _token.value = response.body()?.data?.token
                 } else {
                     _isLoading.value = false
                     _token.value = null
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                _token.value = "Failed to Connect"
+                _connectionFailed.value = true
                 _isLoading.value = false
             }
         })
