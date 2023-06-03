@@ -23,24 +23,6 @@ class RecommendReviewsViewModel : ViewModel() {
 
     fun findUser(txtQuery : String) {
         _isLoading.value = true
-
-        val client = ApiConfig.getApiService().getFollower(txtQuery)
-        client.enqueue(object : Callback<List<FollowerResponseItem>> {
-            override fun onResponse(
-                call: Call<List<FollowerResponseItem>>,
-                response: Response<List<FollowerResponseItem>>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    _listUser.postValue((response.body()))
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-            override fun onFailure(call: Call<List<FollowerResponseItem>>, t: Throwable) {
-                _isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
-            }
-        })
     }
+
 }

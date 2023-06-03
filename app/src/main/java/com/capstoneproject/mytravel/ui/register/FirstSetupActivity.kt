@@ -16,7 +16,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
-import com.capstoneproject.mytravel.HomeActivity
+import com.capstoneproject.mytravel.MainActivity
 import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.databinding.ActivityFirstSetupBinding
 import com.capstoneproject.mytravel.model.UserModel
@@ -50,12 +50,16 @@ class FirstSetupActivity : AppCompatActivity() {
         val data = intent.getParcelableExtra<UserModel>("DATA")
         val name = data?.name.toString()
         val email = data?.email.toString()
+        val photoUrl = data?.photo_url.toString()
+        val sendLoc = binding.locationEditText.text.toString()
+
         binding.btnNext.setOnClickListener(){
-            val sendLoc = binding.locationEditText.text.toString()
-            val catPref = "Bahari"
-            firstSetupViewModel.register(name,email, sendLoc, catPref)
-            startActivity(Intent(this@FirstSetupActivity, HomeActivity::class.java))
-            finish()
+            val dataFirstSetup =
+                UserModel(0, photoUrl, name, email, sendLoc, 0, "", false, "")
+            val intentToDetail =
+                Intent(this@FirstSetupActivity, FirstSetupCategoryActivity::class.java)
+            intentToDetail.putExtra("DATA", dataFirstSetup)
+            startActivity(intentToDetail)
         }
     }
 

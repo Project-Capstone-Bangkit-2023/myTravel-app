@@ -20,15 +20,10 @@ interface ApiService {
         @Field("cat_pref") catPref: String
     ): Call<RegisterResponse>
 
-    @GET("search/users")
-    fun getUser(
-        @Query("q") q: String
-    ): Call<GithubResponse>
-
     @GET("profile/{email}")
     fun getProfile(
-        @Header("Authorization") token : String,
-        @Path("email") email : String
+        @Header("Authorization") token: String,
+        @Path("email") email: String
     ): Call<ProfileResponse>
 
 }

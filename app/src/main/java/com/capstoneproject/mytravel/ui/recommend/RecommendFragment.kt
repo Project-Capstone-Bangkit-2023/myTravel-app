@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstoneproject.mytravel.HomeActivity
 import com.capstoneproject.mytravel.adapter.Recommend
 import com.capstoneproject.mytravel.adapter.RecommendAdapter
 import com.capstoneproject.mytravel.databinding.FragmentRecommendBinding
-import com.capstoneproject.mytravel.databinding.ItemRecommendBinding
 import com.capstoneproject.mytravel.retrofit.ItemsItem
 
 

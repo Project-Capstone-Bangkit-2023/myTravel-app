@@ -1,6 +1,7 @@
 package com.capstoneproject.mytravel.ui.home
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -12,10 +13,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.capstoneproject.mytravel.BuildConfig
 import com.capstoneproject.mytravel.R
+import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.databinding.FragmentHomeBinding
+import com.capstoneproject.mytravel.model.UserPreference
 import com.capstoneproject.mytravel.retrofit.WeatherResponse
 import com.capstoneproject.mytravel.retrofit.WeatherService
 import com.capstoneproject.mytravel.ui.setting.SettingActivity
@@ -30,12 +37,14 @@ import java.text.DecimalFormat
 import java.util.*
 
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class HomeFragment : Fragment(){
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var geocoder: Geocoder
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +65,21 @@ class HomeFragment : Fragment(){
 
         binding.btnSetting.setOnClickListener{
             startActivity(Intent(requireActivity(), SettingActivity::class.java))
+        }
+
+        setupViewModel()
+    }
+
+    private fun setupViewModel() {
+        homeViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(UserPreference.getInstance(requireContext().dataStore))
+        )[HomeViewModel::class.java]
+
+
+        homeViewModel.getUser().observe(requireActivity()) { user ->
+            println("INI TOKEN pada home: " + user.token)
+            println("INI IS LOGIN pada home: " + user.isLogin)
         }
 
     }

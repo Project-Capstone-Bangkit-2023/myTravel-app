@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 data class ProfileResponse(
 
 	@field:SerializedName("user")
-	val user: User,
+	val user: UserData,
 
 	@field:SerializedName("status")
 	val status: String
 )
 
-data class User(
+data class UserData(
 
 	@field:SerializedName("password")
 	val password: Any,

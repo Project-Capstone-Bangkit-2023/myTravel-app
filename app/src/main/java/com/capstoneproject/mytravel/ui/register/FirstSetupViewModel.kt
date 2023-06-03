@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.capstoneproject.mytravel.retrofit.ApiConfig
+import com.capstoneproject.mytravel.retrofit.CategoryItem
+import com.capstoneproject.mytravel.retrofit.CategoryResponse
 import com.capstoneproject.mytravel.retrofit.RegisterResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,6 +19,9 @@ class FirstSetupViewModel  : ViewModel() {
 
     private val _isRegisterSuccess = MutableLiveData<Boolean>()
     val isRegisterSuccess: LiveData<Boolean> = _isRegisterSuccess
+
+    private val _listCategory = MutableLiveData<List<CategoryItem>>()
+    val listCategory: LiveData<List<CategoryItem>> = _listCategory
 
     fun register(name: String, email: String, location: String, catPref: String){
         _isLoading.value = true
