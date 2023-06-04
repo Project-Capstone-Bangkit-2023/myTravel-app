@@ -17,7 +17,7 @@ class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.New
                 MainViewModel(pref) as T
             }
             modelClass.isAssignableFrom(FirstSetupViewModel::class.java) -> {
-                FirstSetupViewModel() as T
+                FirstSetupViewModel(pref) as T
             }
             modelClass.isAssignableFrom(SettingViewModel::class.java) -> {
                 SettingViewModel(pref) as T

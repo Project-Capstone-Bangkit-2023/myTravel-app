@@ -51,8 +51,8 @@ class FirstSetupActivity : AppCompatActivity() {
         val name = data?.name.toString()
         val email = data?.email.toString()
         val photoUrl = data?.photo_url.toString()
-        val sendLoc = binding.locationEditText.text.toString()
-
+        val sendLoc = "Bekasi, Jawa Barat"
+        println(sendLoc)
         binding.btnNext.setOnClickListener(){
             val dataFirstSetup =
                 UserModel(0, photoUrl, name, email, sendLoc, 0, "", false, "")
