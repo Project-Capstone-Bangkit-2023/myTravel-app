@@ -51,11 +51,13 @@ class FirstSetupActivity : AppCompatActivity() {
         val name = data?.name.toString()
         val email = data?.email.toString()
         val photoUrl = data?.photo_url.toString()
-        val sendLoc = "Bekasi, Jawa Barat"
-        println(sendLoc)
+
         binding.btnNext.setOnClickListener(){
+            val sendLoc = binding.locationEditText.text.toString()
+            val ageStr = binding.ageEditText.text.toString()
+            val age = ageStr.toInt()
             val dataFirstSetup =
-                UserModel(0, photoUrl, name, email, sendLoc, 0, "", false, "")
+                UserModel(0, photoUrl, name, email, sendLoc, age, "", false, "")
             val intentToDetail =
                 Intent(this@FirstSetupActivity, FirstSetupCategoryActivity::class.java)
             intentToDetail.putExtra("DATA", dataFirstSetup)

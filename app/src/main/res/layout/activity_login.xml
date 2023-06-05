@@ -53,8 +53,10 @@
             android:background="@drawable/rounded"
             android:textColor="@color/black"
             android:text="@string/sign_in_with_google"
+            android:clickable="true"
             app:layout_constraintTop_toBottomOf="@+id/mytravel_logo"
-            tools:layout_editor_absoluteX="5dp" />
+            tools:layout_editor_absoluteX="5dp"
+            android:focusable="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

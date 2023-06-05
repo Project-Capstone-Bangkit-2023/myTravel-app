@@ -37,6 +37,10 @@
     <string name="login_failed_text">Login gagal</string>
     <string name="login_success">Login Success</string>
     <string name="login_success_text">Selamat datang kembali</string>
+    <string name="register_success">Register Success</string>
+    <string name="register_success_text">Selamat datang di MyTravel! Mari jelajahi Indonesia.</string>
+    <string name="register_failed">Register Failed</string>
+    <string name="register_failed_text">Gagal mendaftarkan akun! Periksa koneksi anda lalu coba lagi.</string>
     <string name="next">Next</string>
     <string name="close">Close</string>
 </resources>
