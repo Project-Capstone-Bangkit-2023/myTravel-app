@@ -4,7 +4,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
-
     @FormUrlEncoded
     @POST("auth/login")
     fun login(
@@ -27,4 +26,9 @@ interface ApiService {
         @Path("email") email: String
     ): Call<ProfileResponse>
 
+    @GET("tourisms")
+    fun searchPlace(
+        @Header("Authorization") token: String,
+        @Query("q") q: String
+    ): Call<SearchResponse>
 }

@@ -27,7 +27,7 @@ class DetailRecommendActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         val data = intent.getParcelableExtra<Recommend>("DATA")
-        binding.tvDetailRecommend.text = data?.username
+        binding.tvDetailRecommend.text = data?.name
         binding.tvDetailAddress.text = data?.url
         binding.let {
             Glide.with(this@DetailRecommendActivity)
@@ -48,7 +48,7 @@ class DetailRecommendActivity : AppCompatActivity() {
 
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvReviews.addItemDecoration(itemDecoration)
-        data?.username?.let { recommendReviewsViewModel.findUser(it) }
+        data?.name?.let { recommendReviewsViewModel.findUser(it) }
 
     }
     private fun setUserData(userData: List<FollowerResponseItem>) {

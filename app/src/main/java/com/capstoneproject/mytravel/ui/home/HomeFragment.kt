@@ -1,6 +1,9 @@
 package com.capstoneproject.mytravel.ui.home
 
+
+import androidx.appcompat.widget.SearchView
 import android.Manifest
+import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -18,11 +21,17 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstoneproject.mytravel.BuildConfig
 import com.capstoneproject.mytravel.R
 import com.capstoneproject.mytravel.ViewModelFactory
+import com.capstoneproject.mytravel.adapter.Place
+import com.capstoneproject.mytravel.adapter.PlaceAdapter
+import com.capstoneproject.mytravel.adapter.Recommend
 import com.capstoneproject.mytravel.databinding.FragmentHomeBinding
 import com.capstoneproject.mytravel.model.UserPreference
+import com.capstoneproject.mytravel.retrofit.DataItem
 import com.capstoneproject.mytravel.retrofit.WeatherResponse
 import com.capstoneproject.mytravel.retrofit.WeatherService
 import com.capstoneproject.mytravel.ui.setting.SettingActivity
@@ -45,6 +54,7 @@ class HomeFragment : Fragment(){
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var geocoder: Geocoder
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var adapter: PlaceAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +69,12 @@ class HomeFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvPlace.layoutManager = layoutManager
+
+        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
+        binding.rvPlace.addItemDecoration(itemDecoration)
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         geocoder = Geocoder(requireActivity(), Locale.getDefault())
         getLocation()
@@ -68,6 +84,52 @@ class HomeFragment : Fragment(){
         }
 
         setupViewModel()
+
+        val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = binding.edtSearch
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
+        searchView.queryHint = "Search Here..."
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                homeViewModel.getUser().observe(requireActivity()){ user ->
+                    val token = user.token
+                    homeViewModel.findPlaces(token, query)
+                }
+                return true
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                return false
+            }
+        })
+    }
+
+    private fun setPlaceData(placeData: List<DataItem>){
+        val listPlace = ArrayList<Place>()
+        for (i in placeData) {
+            val name = i.name
+            val category = i.category
+            val photo = i.picture
+            val city = i.city
+            val strRating = i.rating.toString()
+            val rating = strRating.toDouble()
+            val lat = i.latitude.toDouble()
+            val lon = i.longitude.toDouble()
+            val place = Place(name, category, photo, city, rating, lat, lon)
+            listPlace.add(place)
+            println(listPlace)
+        }
+        adapter = PlaceAdapter(listPlace)
+        binding.rvPlace.adapter = adapter
+        adapter.setOnItemClickCallback(object : PlaceAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Place) {
+                val intentToDetail = Intent(requireActivity(), DetailSearchActivity::class.java)
+                intentToDetail.putExtra("DATA", data)
+                println(data)
+                startActivity(intentToDetail)
+            }
+        })
     }
 
     private fun setupViewModel() {
@@ -76,12 +138,18 @@ class HomeFragment : Fragment(){
             ViewModelFactory(UserPreference.getInstance(requireContext().dataStore))
         )[HomeViewModel::class.java]
 
-
-        homeViewModel.getUser().observe(requireActivity()) { user ->
-            println("INI TOKEN pada home: " + user.token)
-            println("INI IS LOGIN pada home: " + user.isLogin)
+        homeViewModel.listPlace.observe(requireActivity()) {DataItem ->
+            if(DataItem == null){
+                binding.cvRecommend.visibility = View.VISIBLE
+                binding.cvNearby.visibility = View.VISIBLE
+                binding.cvGem.visibility = View.VISIBLE
+            }else{
+                binding.cvRecommend.visibility = View.GONE
+                binding.cvNearby.visibility = View.GONE
+                binding.cvGem.visibility = View.GONE
+                setPlaceData(DataItem)
+            }
         }
-
     }
 
 
@@ -162,10 +230,6 @@ class HomeFragment : Fragment(){
                 if (response.isSuccessful) {
                     val weatherResponse = response.body()
                     weatherResponse?.let {
-                        val latWeather = it.coord.lat
-                        val lonWeather = it.coord.lon
-                        println("LAT WEATHER : $latWeather")
-                        println("LON WEATHER : $lonWeather")
                         val temperatureKelvin = it.main.temp.toString()
                         val temperatureCelsius = temperatureKelvin.toDouble() - 273.0
                         val temperature = DecimalFormat("##.##").format(temperatureCelsius)

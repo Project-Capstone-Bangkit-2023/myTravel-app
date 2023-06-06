@@ -90,14 +90,6 @@ class LoginActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)!!
-                println(account.account)
-                println(account.id)
-                println(account.idToken)
-                println(account.email)
-                println(account.displayName)
-                println(account.familyName)
-                println(account.givenName)
-                println(account.photoUrl)
 
                 val name = account.displayName.toString()
                 val email = account.email.toString()
@@ -124,7 +116,6 @@ class LoginActivity : AppCompatActivity() {
                     isToken = true
                     }
                 }
-
             } catch (e: ApiException) {
                 Log.w(TAG, "Google sign in failed", e)
             }

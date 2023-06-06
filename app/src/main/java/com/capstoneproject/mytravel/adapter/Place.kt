@@ -4,9 +4,12 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Recommend(
+data class Place(
     val name: String?,
+    val category: String?,
     val photo: String?,
-    val url: String?,
-    val weather: String?
+    val city: String?,
+    val rating: Double?,
+    val lat: Double?,
+    val lon: Double?
 ) : Parcelable
