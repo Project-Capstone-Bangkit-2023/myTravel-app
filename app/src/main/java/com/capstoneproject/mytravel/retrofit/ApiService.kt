@@ -31,4 +31,11 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("q") q: String
     ): Call<SearchResponse>
+
+    @GET("tourisms/{id}/detail")
+    fun getPlaceDetail(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Call<PlaceDetailResponse>
+
 }

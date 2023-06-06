@@ -44,7 +44,7 @@
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:text="@string/place_name"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />

@@ -38,11 +38,7 @@ class DetailRecommendActivity : AppCompatActivity() {
         starRatingSetup()
 
         recommendReviewsViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[RecommendReviewsViewModel::class.java]
-        recommendReviewsViewModel.listUser.observe(this) { FollowerResponseItem ->
-            setUserData(
-                FollowerResponseItem
-            )
-        }
+
         val layoutManager = LinearLayoutManager(this)
         binding.rvReviews.layoutManager = layoutManager
 
@@ -50,24 +46,6 @@ class DetailRecommendActivity : AppCompatActivity() {
         binding.rvReviews.addItemDecoration(itemDecoration)
         data?.name?.let { recommendReviewsViewModel.findUser(it) }
 
-    }
-    private fun setUserData(userData: List<FollowerResponseItem>) {
-        val listUser = ArrayList<Recommend>()
-        for (i in userData) {
-            val username = i.login
-            val photo = i.avatarUrl
-            val url = i.htmlUrl
-            val weather = "26C"
-            val user = Recommend(username , photo, url, weather)
-            listUser.add(user)
-        }
-        adapter = ReviewsAdapter(listUser)
-        binding.rvReviews.adapter = adapter
-        adapter.setOnItemClickCallback(object : ReviewsAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Recommend) {
-
-            }
-        })
     }
 
     private fun starRatingSetup(){

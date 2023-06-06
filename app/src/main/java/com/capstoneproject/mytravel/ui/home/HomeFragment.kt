@@ -108,15 +108,18 @@ class HomeFragment : Fragment(){
     private fun setPlaceData(placeData: List<DataItem>){
         val listPlace = ArrayList<Place>()
         for (i in placeData) {
+            val id = i.id
             val name = i.name
             val category = i.category
             val photo = i.picture
+            val desc = i.description
             val city = i.city
             val strRating = i.rating.toString()
             val rating = strRating.toDouble()
             val lat = i.latitude.toDouble()
             val lon = i.longitude.toDouble()
-            val place = Place(name, category, photo, city, rating, lat, lon)
+            val price = i.price
+            val place = Place(id,name, category, photo, city, rating, price, desc, lat, lon)
             listPlace.add(place)
             println(listPlace)
         }

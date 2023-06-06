@@ -32,7 +32,7 @@ class PlaceAdapter(private val listPlace: List<Place>) : RecyclerView.Adapter<Pl
     override fun getItemCount(): Int = listPlace.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (name, category, photo, city, rating) = listPlace[position]
+        val (id, name, category, photo, city, rating) = listPlace[position]
         val photoUrl = "https://storage.googleapis.com/mytravel_bucket/places/$photo"
         Glide.with(holder.itemView.context)
             .load(photoUrl)

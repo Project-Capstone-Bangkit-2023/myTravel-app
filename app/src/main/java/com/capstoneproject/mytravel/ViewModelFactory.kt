@@ -3,6 +3,7 @@ package com.capstoneproject.mytravel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.capstoneproject.mytravel.model.UserPreference
+import com.capstoneproject.mytravel.ui.home.DetailSearchViewModel
 import com.capstoneproject.mytravel.ui.home.HomeViewModel
 import com.capstoneproject.mytravel.ui.login.LoginViewModel
 import com.capstoneproject.mytravel.ui.register.FirstSetupViewModel
@@ -27,6 +28,9 @@ class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.New
             }
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                 HomeViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(DetailSearchViewModel::class.java) -> {
+                DetailSearchViewModel(pref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

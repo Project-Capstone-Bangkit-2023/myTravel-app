@@ -9,17 +9,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstoneproject.mytravel.R
 
-class  ReviewsAdapter(private val listRecommend: List<Recommend>) : RecyclerView.Adapter<ReviewsAdapter.ListViewHolder>() {
+class  ReviewsAdapter(private val listReview: List<ReviewUser>) : RecyclerView.Adapter<ReviewsAdapter.ListViewHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
+    fun setOnItemClickCallback() {
+
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgPhoto: ImageView = itemView.findViewById(R.id.img_user)
         val tvName: TextView = itemView.findViewById(R.id.tv_user)
+        val tvReview: TextView = itemView.findViewById(R.id.tv_review)
+        val imgOne: ImageView = itemView.findViewById(R.id.img_one_star)
+        val imgTwo: ImageView = itemView.findViewById(R.id.img_two_star)
+        val imgThree: ImageView = itemView.findViewById(R.id.img_three_star)
+        val imgFour: ImageView = itemView.findViewById(R.id.img_four_star)
+        val imgFive: ImageView = itemView.findViewById(R.id.img_five_star)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -27,19 +33,47 @@ class  ReviewsAdapter(private val listRecommend: List<Recommend>) : RecyclerView
         return ListViewHolder(view)
     }
 
-    override fun getItemCount(): Int = listRecommend.size
+    override fun getItemCount(): Int = listReview.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (username, photo) = listRecommend[position]
-        Glide.with(holder.itemView.context)
-            .load(photo)
-            .into(holder.imgPhoto)
-        holder.tvName.text = username
-        holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listRecommend[holder.adapterPosition])
+        val (name, review, rating) = listReview[position]
+
+        holder.tvName.text = name
+        holder.tvReview.text = review
+        if (rating == 1) {
+            holder.imgOne.visibility = View.VISIBLE
+            holder.imgTwo.visibility = View.GONE
+            holder.imgThree.visibility = View.GONE
+            holder.imgFour.visibility = View.GONE
+            holder.imgFive.visibility = View.GONE
+        }else if(rating == 2){
+            holder.imgOne.visibility = View.VISIBLE
+            holder.imgTwo.visibility = View.VISIBLE
+            holder.imgThree.visibility = View.GONE
+            holder.imgFour.visibility = View.GONE
+            holder.imgFive.visibility = View.GONE
+        }else if(rating == 3){
+            holder.imgOne.visibility = View.VISIBLE
+            holder.imgTwo.visibility = View.VISIBLE
+            holder.imgThree.visibility = View.VISIBLE
+            holder.imgFour.visibility = View.GONE
+            holder.imgFive.visibility = View.GONE
+        }else if(rating == 4){
+            holder.imgOne.visibility = View.VISIBLE
+            holder.imgTwo.visibility = View.VISIBLE
+            holder.imgThree.visibility = View.VISIBLE
+            holder.imgFour.visibility = View.VISIBLE
+            holder.imgFive.visibility = View.GONE
+        }else{
+            holder.imgOne.visibility = View.VISIBLE
+            holder.imgTwo.visibility = View.VISIBLE
+            holder.imgThree.visibility = View.VISIBLE
+            holder.imgFour.visibility = View.VISIBLE
+            holder.imgFive.visibility = View.VISIBLE
         }
+
     }
     interface OnItemClickCallback {
-        fun onItemClicked(data: Recommend)
+        fun onItemClicked(data: ReviewUser)
     }
 }
