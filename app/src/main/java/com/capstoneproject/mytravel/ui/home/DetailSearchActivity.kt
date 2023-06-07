@@ -1,9 +1,10 @@
 package com.capstoneproject.mytravel.ui.home
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -15,12 +16,10 @@ import com.capstoneproject.mytravel.BuildConfig
 import com.capstoneproject.mytravel.R
 import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.adapter.Place
-import com.capstoneproject.mytravel.adapter.PlaceAdapter
 import com.capstoneproject.mytravel.adapter.ReviewUser
 import com.capstoneproject.mytravel.adapter.ReviewsAdapter
 import com.capstoneproject.mytravel.databinding.ActivityDetailSearchBinding
 import com.capstoneproject.mytravel.model.UserPreference
-import com.capstoneproject.mytravel.retrofit.DataItem
 import com.capstoneproject.mytravel.retrofit.TourismRatingItem
 import com.capstoneproject.mytravel.retrofit.WeatherResponse
 import com.capstoneproject.mytravel.retrofit.WeatherService
@@ -42,19 +41,20 @@ class DetailSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailSearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         val data = intent.getParcelableExtra<Place>("DATA")
         val id = data?.id!!.toInt()
         val photo = data.photo
         val photoUrl = "https://storage.googleapis.com/mytravel_bucket/places/$photo"
-
+        val formatRating = String.format("%.1f", data.rating)
         Glide.with(this)
             .load(photoUrl)
             .into(binding.imgDetail)
 
         binding.tvDetailTitle.text = data.name
         binding.tvDetailAddress.text = data.city
-        binding.tvRating.text = data.rating.toString()
+        binding.tvRating.text = formatRating
         binding.tvHtm.text = data.price.toString()
         binding.tvDescription.text = data.desc
 
@@ -69,13 +69,69 @@ class DetailSearchActivity : AppCompatActivity() {
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvReviews.addItemDecoration(itemDecoration)
 
+
         detailSearchViewModel.listReviews.observe(this){
             setReviewData(it)
         }
 
+        detailSearchViewModel.isLoading.observe(this){showLoading(it)}
+
         detailSearchViewModel.getUser().observe(this){
             val token = it.token
-            detailSearchViewModel.getReviews(token, id)
+            val userId = it.userId
+            detailSearchViewModel.getReviews(token, id, userId)
+            println("GET USER")
+        }
+
+        detailSearchViewModel.review.observe(this) {
+            if(it != null){
+                val reviewId = it.id
+                val tourismId = it.tourismId
+                binding.tvReviewTitle.text = "Your Review"
+                binding.reviewEditText.setText(it.review.toString())
+                binding.reviewEditText.isEnabled = false
+                binding.btnSubmitReview.visibility = View.GONE
+                binding.btnUpdateReview.visibility = View.VISIBLE
+                binding.btnUpdateReview.setOnClickListener{
+                    binding.reviewEditText.isEnabled = true
+                    binding.btnUpdateReview.visibility = View.GONE
+                    binding.btnPostUpdateReview.visibility = View.VISIBLE
+                }
+                detailSearchViewModel.getUser().observe(this){
+                    val token = it.token
+                    binding.btnPostUpdateReview.setOnClickListener{
+                        val review = binding.reviewEditText.text.toString()
+                        detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, review)
+                    }
+                }
+
+                if(it.rating == 1){
+                    buttonEnableOneStar()
+                    EXTRA_RATING = 1
+                }else if(it.rating == 2){
+                    buttonEnableOneStar()
+                    buttonEnableTwoStar()
+                    EXTRA_RATING = 2
+                }else if(it.rating == 3){
+                    buttonEnableOneStar()
+                    buttonEnableTwoStar()
+                    buttonEnableThreeStar()
+                    EXTRA_RATING = 3
+                }else if(it.rating == 4){
+                    buttonEnableOneStar()
+                    buttonEnableTwoStar()
+                    buttonEnableThreeStar()
+                    buttonEnableFourStar()
+                    EXTRA_RATING = 4
+                }else if(it.rating == 5){
+                    buttonEnableOneStar()
+                    buttonEnableTwoStar()
+                    buttonEnableThreeStar()
+                    buttonEnableFourStar()
+                    buttonEnableFiveStar()
+                    EXTRA_RATING = 5
+                }
+            }
         }
 
         val lat = data.lat!!.toDouble()
@@ -85,9 +141,29 @@ class DetailSearchActivity : AppCompatActivity() {
         starRatingSetup()
 
         binding.btnSubmitReview.setOnClickListener{
-            println(EXTRA_RATING)
+            detailSearchViewModel.getUser().observe(this){ user ->
+                val idUser = user.userId
+                val review = binding.reviewEditText.text.toString()
+                val rating = EXTRA_RATING
+                val token = user.token
+                detailSearchViewModel.postReview(token, id, idUser, rating, review)
+                detailSearchViewModel.isPostSuccess.observe(this){
+                    if(it){
+                        Toast.makeText(
+                            this,
+                            "Your review is posted. Thank you! ",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        binding.reviewEditText.clearFocus()
+                    }
+                }
+                println(EXTRA_RATING)
+            }
+            binding.topProgressBar.visibility = View.VISIBLE
         }
     }
+
+
 
     private fun getTemperature(lat: Double, lon: Double){
         val retrofit = Retrofit.Builder()
@@ -288,6 +364,14 @@ class DetailSearchActivity : AppCompatActivity() {
         Glide.with(this@DetailSearchActivity)
             .load(R.drawable.baseline_star_border_30)
             .into(binding.btnFiveStar)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.topProgressBar.visibility = View.VISIBLE
+        } else {
+            binding.topProgressBar.visibility = View.GONE
+        }
     }
 
     companion object{

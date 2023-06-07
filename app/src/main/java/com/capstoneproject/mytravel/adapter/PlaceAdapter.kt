@@ -33,13 +33,14 @@ class PlaceAdapter(private val listPlace: List<Place>) : RecyclerView.Adapter<Pl
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val (id, name, category, photo, city, rating) = listPlace[position]
+        val formatRating = String.format("%.1f", rating)
         val photoUrl = "https://storage.googleapis.com/mytravel_bucket/places/$photo"
         Glide.with(holder.itemView.context)
             .load(photoUrl)
             .into(holder.imgPhoto)
         holder.tvName.text = name
         holder.tvAddress.text = city
-        holder.tvRating.text = rating.toString()
+        holder.tvRating.text = formatRating
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listPlace[holder.adapterPosition])
         }

@@ -38,4 +38,24 @@ interface ApiService {
         @Path("id") id: Int
     ): Call<PlaceDetailResponse>
 
+    @FormUrlEncoded
+    @POST("tourisms/{tourism_id}/reviews")
+    fun postReviews(
+        @Header("Authorization") token: String,
+        @Path("tourism_id") tourismId: Int,
+        @Field("tourism_id") idTourism: Int,
+        @Field("user_id") userId: Int,
+        @Field("rating") rating: Int,
+        @Field("review") review: String
+    ): Call<PostReviewResponse>
+
+    @FormUrlEncoded
+    @POST("tourisms/{tourism_id}/reviews/{review_id}")
+    fun postUpdateReview(
+        @Header("Authorization") token: String,
+        @Path("tourism_id") tourismId: Int,
+        @Path("review_id") reviewId: Int,
+        @Field("rating") rating: Int,
+        @Field("review") review: String
+    ): Call<UpdateReviewResponse>
 }
