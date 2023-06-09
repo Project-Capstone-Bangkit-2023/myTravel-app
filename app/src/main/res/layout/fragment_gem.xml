@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.recommend.RecommendFragment">
 
+    <Button
+        android:id="@+id/btnButton"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BUTTON"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -28,6 +38,7 @@
             android:text="@string/title_gem"/>
 
     </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStory"

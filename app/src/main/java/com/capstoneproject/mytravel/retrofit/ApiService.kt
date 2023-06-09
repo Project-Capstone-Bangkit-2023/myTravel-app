@@ -30,7 +30,11 @@ interface ApiService {
     fun searchPlace(
         @Header("Authorization") token: String,
         @Query("q") q: String
-    ): Call<SearchResponse>
+    ): Call<PlaceResponse>
+    @GET("tourisms")
+    fun getAllPlace(
+        @Header("Authorization") token: String
+    ): Call<PlaceResponse>
 
     @GET("tourisms/{id}/detail")
     fun getPlaceDetail(
@@ -58,4 +62,12 @@ interface ApiService {
         @Field("rating") rating: Int,
         @Field("review") review: String
     ): Call<UpdateReviewResponse>
+
+
+    @POST("directions/v2:computeRoutes")
+    fun computeRoute(
+        @Query("origin") origin: String,
+        @Query("destination") destination: String,
+        @Query("key") key: String
+    ): Call<DistanceResponse>
 }

@@ -6,6 +6,7 @@ import com.capstoneproject.mytravel.model.UserPreference
 import com.capstoneproject.mytravel.ui.home.DetailSearchViewModel
 import com.capstoneproject.mytravel.ui.home.HomeViewModel
 import com.capstoneproject.mytravel.ui.login.LoginViewModel
+import com.capstoneproject.mytravel.ui.nearby.NearbyViewModel
 import com.capstoneproject.mytravel.ui.register.FirstSetupViewModel
 import com.capstoneproject.mytravel.ui.setting.SettingViewModel
 
@@ -31,6 +32,9 @@ class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.New
             }
             modelClass.isAssignableFrom(DetailSearchViewModel::class.java) -> {
                 DetailSearchViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(NearbyViewModel::class.java) -> {
+                NearbyViewModel(pref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

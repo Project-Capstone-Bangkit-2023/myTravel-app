@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.capstoneproject.mytravel.HomeActivity
 import com.capstoneproject.mytravel.adapter.Gem
 import com.capstoneproject.mytravel.adapter.GemAdapter
 import com.capstoneproject.mytravel.databinding.FragmentGemBinding
@@ -39,6 +40,9 @@ class GemFragment : Fragment() {
         gemViewModel.listUser.observe(requireActivity()) { Itemsitem -> setUserData(Itemsitem) }
         gemViewModel.isLoading.observe(requireActivity()) { showLoading(it) }
 
+        binding.btnButton.setOnClickListener{
+            startActivity(Intent(requireActivity(), DetailGemActivity::class.java))
+        }
     }
 
     private fun setUserData(userData: List<ItemsItem>){

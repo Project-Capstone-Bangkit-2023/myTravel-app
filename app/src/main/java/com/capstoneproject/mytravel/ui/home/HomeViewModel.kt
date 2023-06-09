@@ -9,7 +9,7 @@ import com.capstoneproject.mytravel.model.UserModel
 import com.capstoneproject.mytravel.model.UserPreference
 import com.capstoneproject.mytravel.retrofit.ApiConfig
 import com.capstoneproject.mytravel.retrofit.DataItem
-import com.capstoneproject.mytravel.retrofit.SearchResponse
+import com.capstoneproject.mytravel.retrofit.PlaceResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,10 +36,10 @@ class HomeViewModel(private val pref: UserPreference) : ViewModel() {
     fun findPlaces(token: String, txtQuery : String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().searchPlace(token, txtQuery)
-        client.enqueue(object : Callback<SearchResponse> {
+        client.enqueue(object : Callback<PlaceResponse> {
             override fun onResponse(
-                call: Call<SearchResponse>,
-                response: Response<SearchResponse>
+                call: Call<PlaceResponse>,
+                response: Response<PlaceResponse>
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
@@ -50,7 +50,7 @@ class HomeViewModel(private val pref: UserPreference) : ViewModel() {
                     println(response.message())
                 }
             }
-            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+            override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
                 failureToast.value = true

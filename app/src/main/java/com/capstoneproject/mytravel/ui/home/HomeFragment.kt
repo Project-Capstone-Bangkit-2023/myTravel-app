@@ -77,7 +77,6 @@ class HomeFragment : Fragment(){
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         geocoder = Geocoder(requireActivity(), Locale.getDefault())
-        getLocation()
 
         binding.btnSetting.setOnClickListener{
             startActivity(Intent(requireActivity(), SettingActivity::class.java))
@@ -92,6 +91,7 @@ class HomeFragment : Fragment(){
         searchView.queryHint = "Search Here..."
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                binding.edtSearch.clearFocus()
                 homeViewModel.getUser().observe(requireActivity()){ user ->
                     val token = user.token
                     homeViewModel.findPlaces(token, query)
@@ -153,100 +153,15 @@ class HomeFragment : Fragment(){
                 setPlaceData(DataItem)
             }
         }
+
+        homeViewModel.isLoading.observe(requireActivity()){ showLoading(it)}
     }
-
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            when {
-                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                    getLocation()
-                }
-                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                    getLocation()
-                }
-                else -> {
-
-                }
-            }
-        }
-
-    private fun checkPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireActivity(),
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun getLocation() {
-        if  (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-        ){
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    val lat = location.latitude
-                    val lon = location.longitude
-                    println("LAT LOC : $lat")
-                    println("LON LOC : $lon")
-
-                    getTemperature(lat, lon)
-
-                    val address = geocoder.getFromLocation(lat,lon,1)
-                    val city = address!![0].subAdminArea.toString()
-                    val thoroughFare = address[0].thoroughfare.toString()
-                    val displayAddress = "$city , $thoroughFare"
-                    binding.tvLocation.text = displayAddress
-                } else {
-                    Toast.makeText(
-                        requireActivity(),
-                        "Location is not found. Try Again",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
         } else {
-            requestPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
+            binding.progressBar.visibility = View.GONE
         }
-    }
-
-    private fun getTemperature(lat: Double, lon: Double){
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.openweathermap.org/data/2.5/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val weatherService = retrofit.create(WeatherService::class.java)
-
-        val call = weatherService.getCurrentWeather(lat, lon, BuildConfig.APP_ID)
-        call.enqueue(object : Callback<WeatherResponse> {
-            override fun onResponse(
-                call: Call<WeatherResponse>,
-                response: Response<WeatherResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val weatherResponse = response.body()
-                    weatherResponse?.let {
-                        val temperatureKelvin = it.main.temp.toString()
-                        val temperatureCelsius = temperatureKelvin.toDouble() - 273.0
-                        val temperature = DecimalFormat("##.##").format(temperatureCelsius)
-                        val humidity = it.main.humidity
-                        binding.tvTemperature.text = resources.getString(R.string.temperature, temperature)
-                    }
-                } else {
-                }
-            }
-
-            override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-
-            }
-        })
     }
 
 }

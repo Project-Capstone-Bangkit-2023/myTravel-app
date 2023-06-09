@@ -2,7 +2,7 @@ package com.capstoneproject.mytravel.retrofit
 
 import com.google.gson.annotations.SerializedName
 
-data class SearchResponse(
+data class PlaceResponse(
 
 	@field:SerializedName("data")
 	val data: List<DataItem>,
