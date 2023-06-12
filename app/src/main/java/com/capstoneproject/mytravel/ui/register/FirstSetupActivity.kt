@@ -44,7 +44,6 @@ class FirstSetupActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         geocoder = Geocoder(this, Locale.getDefault())
-        getMyLastLocation()
 
         setupViewModel()
         val data = intent.getParcelableExtra<UserModel>("DATA")

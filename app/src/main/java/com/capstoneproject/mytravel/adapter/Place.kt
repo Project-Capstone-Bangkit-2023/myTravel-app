@@ -14,5 +14,6 @@ data class Place(
     val price: Int?,
     val desc: String?,
     val lat: Double?,
-    val lon: Double?
+    val lon: Double?,
+    val distance: Double?
 ) : Parcelable

@@ -2,20 +2,14 @@ package com.capstoneproject.mytravel.ui.home
 
 
 import androidx.appcompat.widget.SearchView
-import android.Manifest
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -23,26 +17,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstoneproject.mytravel.BuildConfig
-import com.capstoneproject.mytravel.R
 import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.adapter.Place
 import com.capstoneproject.mytravel.adapter.PlaceAdapter
-import com.capstoneproject.mytravel.adapter.Recommend
 import com.capstoneproject.mytravel.databinding.FragmentHomeBinding
 import com.capstoneproject.mytravel.model.UserPreference
 import com.capstoneproject.mytravel.retrofit.DataItem
-import com.capstoneproject.mytravel.retrofit.WeatherResponse
-import com.capstoneproject.mytravel.retrofit.WeatherService
 import com.capstoneproject.mytravel.ui.setting.SettingActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.text.DecimalFormat
 import java.util.*
 
 
@@ -119,7 +102,7 @@ class HomeFragment : Fragment(){
             val lat = i.latitude.toDouble()
             val lon = i.longitude.toDouble()
             val price = i.price
-            val place = Place(id,name, category, photo, city, rating, price, desc, lat, lon)
+            val place = Place(id,name, category, photo, city, rating, price, desc, lat, lon, 0.0)
             listPlace.add(place)
             println(listPlace)
         }
@@ -156,6 +139,7 @@ class HomeFragment : Fragment(){
 
         homeViewModel.isLoading.observe(requireActivity()){ showLoading(it)}
     }
+
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE

@@ -2,4 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="100dp" /> <!-- Atur radius sesuai keinginan, di sini diatur menjadi 8dp -->
     <solid android:color="@color/white" /> <!-- Ganti dengan warna yang diinginkan -->
+    <stroke
+        android:width="5dp"
+        android:color="@color/blue_primary" />
 </shape>

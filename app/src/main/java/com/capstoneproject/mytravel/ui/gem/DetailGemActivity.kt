@@ -4,8 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.capstoneproject.mytravel.R
-import com.capstoneproject.mytravel.retrofit.ApiService
-import com.capstoneproject.mytravel.retrofit.DistanceResponse
+import com.capstoneproject.mytravel.retrofit.*
 import com.capstoneproject.mytravel.ui.home.HomeViewModel
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull

@@ -1,7 +1,19 @@
 package com.capstoneproject.mytravel.retrofit
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
+
+data class LatLng(val latitude: Double, val longitude: Double)
+
+data class Location(val latLng: LatLng)
+
+data class Origin(val location: Location)
+
+data class Destination(val location: Location)
+
+data class RouteRequest(val origin: Origin, val destination: Destination)
+
 
 interface ApiService {
     @FormUrlEncoded
@@ -63,11 +75,11 @@ interface ApiService {
         @Field("review") review: String
     ): Call<UpdateReviewResponse>
 
-
     @POST("directions/v2:computeRoutes")
     fun computeRoute(
-        @Query("origin") origin: String,
-        @Query("destination") destination: String,
-        @Query("key") key: String
-    ): Call<DistanceResponse>
+        @Header("X-Goog-Api-Key") key: String,
+        @Header("X-Goog-FieldMask") fieldMask: String,
+        @Body request: RouteRequest,
+    ): Call<RouteResponse>
+
 }

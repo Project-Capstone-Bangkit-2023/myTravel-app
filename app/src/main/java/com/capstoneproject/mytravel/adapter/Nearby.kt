@@ -5,7 +5,15 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Nearby(
-    val username: String?,
+    val id: Int?,
+    val name: String?,
+    val category: String?,
     val photo: String?,
-    val url: String?
+    val city: String?,
+    val rating: Double?,
+    val price: Int?,
+    val desc: String?,
+    val lat: Double?,
+    val lon: Double?,
+    val distance: Double
 ) : Parcelable
