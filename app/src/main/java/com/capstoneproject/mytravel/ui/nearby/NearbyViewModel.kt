@@ -35,7 +35,7 @@ class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
 
     var failureToast = MutableLiveData<Boolean?>()
 
-    private val _route = MutableLiveData<List<RoutesItem>>()
+    private val _count = MutableLiveData<Int>(0)
 
     companion object{
         private const val TAG = "Nearby View Model"
@@ -62,52 +62,77 @@ class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
                 if (response.isSuccessful) {
                     val listPlace = listPlace.value?.toMutableList() ?: mutableListOf()
                     _place.value = response.body()?.data
-                    for(i in _place.value!!){
-                        val latDestination = i.latitude.toDouble()
-                        val lonDestination = i.longitude.toDouble()
+                    if(_count.value!! != 10) {
+                        for(i in _place.value!!){
+                            if(_count.value!!.toInt() == 10){
+                                break
+                            }
+                            val latDestination = i.latitude.toDouble()
+                            val lonDestination = i.longitude.toDouble()
 
-                        val request = RouteRequest(
-                            Origin(Location(LatLng(lat, lon))),
-                            Destination(Location(LatLng(latDestination, lonDestination)))
-                        )
+                            val request = RouteRequest(
+                                Origin(Location(LatLng(lat, lon))),
+                                Destination(Location(LatLng(latDestination, lonDestination)))
+                            )
 
-                        val clientRoute = apiService.computeRoute(key, "routes.duration,routes.distanceMeters", request)
-                        clientRoute.enqueue(object : Callback<RouteResponse> {
-                            override fun onResponse(
-                                call: Call<RouteResponse>,
-                                response: Response<RouteResponse>
-                            ) {
-                                if (response.isSuccessful) {
-                                    val distanceMeter = response.body()?.routes?.get(0)?.distanceMeters
-                                    if (distanceMeter != null) {
-                                        if(distanceMeter < 30000.0){
-                                            val doubleDistanceMeter = distanceMeter.toDouble()
-                                            val strRating = i.rating.toString()
-                                            val distanceKm: Double = (doubleDistanceMeter / 1000)
-                                            val place = Nearby(i.id, i.name, i.category, i.picture, i.city, strRating.toDouble(), i.price, i.description, latDestination, lonDestination, distanceKm)
-                                            listPlace.add(place)
+                            val clientRoute = apiService.computeRoute(key, "routes.duration,routes.distanceMeters", request)
+                            clientRoute.enqueue(object : Callback<RouteResponse> {
+                                override fun onResponse(
+                                    call: Call<RouteResponse>,
+                                    response: Response<RouteResponse>
+                                ) {
+                                    if (response.isSuccessful) {
+                                        val distanceMeter = response.body()?.routes?.get(0)?.distanceMeters
+                                        if (distanceMeter != null) {
+                                            if(distanceMeter < 30000.0){
+                                                if(_count.value!!.toInt() < 10) {
+                                                    _count.value = _count.value!! + 1
+                                                    val doubleDistanceMeter = distanceMeter.toDouble()
+                                                    val strRating = i.rating.toString()
+                                                    val distanceKm: Double =
+                                                        (doubleDistanceMeter / 1000)
+                                                    val place = Nearby(
+                                                        i.id,
+                                                        i.name,
+                                                        i.category,
+                                                        i.picture,
+                                                        i.city,
+                                                        strRating.toDouble(),
+                                                        i.price,
+                                                        i.description,
+                                                        latDestination,
+                                                        lonDestination,
+                                                        distanceKm
+                                                    )
+                                                    listPlace.add(place)
+                                                }else{
+                                                    _isLoading.value = false
+                                                    _listPlace.value = listPlace
+                                                }
+                                            }
                                         }
+                                    } else {
+                                        Log.e("GET ROUTE", "onFailure: ${response.message()}")
+                                        println(response.message())
                                     }
-                                } else {
-                                    Log.e("GET ROUTE", "onFailure: ${response.message()}")
-                                    println(response.message())
                                 }
-                            }
-                            override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
-                                Log.e("ERROR", "onFailure: ${t.message.toString()}")
-                            }
-                        })
-                    }
+                                override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
+                                    Log.e("ERROR", "onFailure: ${t.message.toString()}")
+                                }
+                            })
+
+                        }
                     val handler = Handler()
                     val delayMillis: Long = 4000 // Waktu penundaan dalam milidetik (misalnya, 2000 ms)
 
                     handler.postDelayed(
                         {
-                            _isLoading.value = false
-                            _listPlace.postValue(listPlace)
                         },
                         delayMillis
                     )
+                    }else{
+                        _isLoading.value = false
+                    }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
                     println(response.message())

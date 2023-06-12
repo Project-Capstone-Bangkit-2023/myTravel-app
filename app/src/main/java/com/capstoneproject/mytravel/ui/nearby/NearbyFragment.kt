@@ -89,7 +89,7 @@ class NearbyFragment : Fragment() {
             val place = Nearby(id,name, category, photo, city, rating, price, desc, lat, lon, distance)
             listPlace.add(place)
         }
-        adapter = NearbyAdapter(listPlace)
+        adapter = NearbyAdapter(listPlace.sortedBy { it.distance })
         binding?.rvStory?.adapter = adapter
         adapter.setOnItemClickCallback(object : NearbyAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Nearby) {

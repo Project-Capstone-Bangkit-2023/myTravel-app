@@ -62,6 +62,8 @@ class FirstSetupActivity : AppCompatActivity() {
             intentToDetail.putExtra("DATA", dataFirstSetup)
             startActivity(intentToDetail)
         }
+
+        getMyLastLocation()
     }
 
     private fun setupViewModel() {

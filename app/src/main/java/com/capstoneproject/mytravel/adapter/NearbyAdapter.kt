@@ -7,7 +7,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.capstoneproject.mytravel.BuildConfig
 import com.capstoneproject.mytravel.R
+import com.capstoneproject.mytravel.retrofit.WeatherResponse
+import com.capstoneproject.mytravel.retrofit.WeatherService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.text.DecimalFormat
 
 class NearbyAdapter(private val listNearby: List<Nearby>) : RecyclerView.Adapter<NearbyAdapter.ListViewHolder>() {
 
@@ -34,15 +43,59 @@ class NearbyAdapter(private val listNearby: List<Nearby>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val (id, name, category, photo, city, rating, price, desc, lat, lon, distance) = listNearby[position]
+
+        fun getTemperature(lat: Double, lon: Double){
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://api.openweathermap.org/data/2.5/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val weatherService = retrofit.create(WeatherService::class.java)
+
+            val call = weatherService.getCurrentWeather(lat, lon, BuildConfig.APP_ID)
+            call.enqueue(object : Callback<WeatherResponse> {
+                override fun onResponse(
+                    call: Call<WeatherResponse>,
+                    response: Response<WeatherResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val weatherResponse = response.body()
+                        weatherResponse?.let {
+                            val latWeather = it.coord.lat
+                            val lonWeather = it.coord.lon
+                            println("LAT WEATHER : $latWeather")
+                            println("LON WEATHER : $lonWeather")
+                            val temperatureKelvin = it.main.temp.toString()
+                            val temperatureCelsius = temperatureKelvin.toDouble() - 273.0
+                            val temperature = DecimalFormat("##.#").format(temperatureCelsius)
+                            val humidity = it.main.humidity
+
+                            holder.tvWeather.text = "$temperature °C"
+                        }
+                    } else {
+                    }
+                }
+
+                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+
+                }
+            })
+        }
+
         val photoUrl = "https://storage.googleapis.com/mytravel_bucket/places/$photo"
+        val formatDistance = String.format("%.1f", distance)
+        val latitude = lat
+        val longitude = lon
         Glide.with(holder.itemView.context)
             .load(photoUrl)
             .into(holder.imgPhoto)
         holder.tvName.text = name
         holder.tvAddress.text = city
-        val formatDistance = String.format("%.1f", distance)
         holder.tvDistance.text = "$formatDistance km"
         holder.tvWeather.text = "0.0"
+        if (latitude != null && longitude != null) {
+            getTemperature(latitude,longitude)
+        }
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listNearby[holder.adapterPosition])
         }
