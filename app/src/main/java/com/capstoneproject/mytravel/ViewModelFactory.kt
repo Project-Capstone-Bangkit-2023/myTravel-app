@@ -9,6 +9,7 @@ import com.capstoneproject.mytravel.ui.login.LoginViewModel
 import com.capstoneproject.mytravel.ui.nearby.DetailNearbyViewModel
 import com.capstoneproject.mytravel.ui.nearby.NearbyViewModel
 import com.capstoneproject.mytravel.ui.register.FirstSetupViewModel
+import com.capstoneproject.mytravel.ui.setting.EditProfileViewModel
 import com.capstoneproject.mytravel.ui.setting.SettingViewModel
 
 class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.NewInstanceFactory() {
@@ -39,6 +40,9 @@ class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.New
             }
             modelClass.isAssignableFrom(DetailNearbyViewModel::class.java) -> {
                 DetailNearbyViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(EditProfileViewModel::class.java) -> {
+                EditProfileViewModel(pref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -66,9 +66,10 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
                     val id = strId.toInt()
                     val location = body?.user?.location.toString()
                     val catPref = body?.user?.catPref.toString()
+                    val age = ((body?.user?.age.toString()).toDouble()).toInt()
 
                     println("GETPROFILE SUCCESS")
-                    login(UserModel(id,photoUrl,name,emailBody,location,0,catPref,true,token))
+                    login(UserModel(id,photoUrl,name,emailBody,location,age,catPref,true,token))
                 } else {
                     _isLoading.value = false
                     _token.value = null

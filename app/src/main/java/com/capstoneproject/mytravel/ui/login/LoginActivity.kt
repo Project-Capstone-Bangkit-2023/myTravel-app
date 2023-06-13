@@ -102,7 +102,6 @@ class LoginActivity : AppCompatActivity() {
                             Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                             firebaseAuthWithGoogle(account.idToken!!)
                             val tokenBearer = "Bearer $it"
-                            println(tokenBearer)
                             loginViewModel.getProfile(tokenBearer, email, photoUrl)
                         } else {
                             val data =

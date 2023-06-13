@@ -70,9 +70,7 @@ class DetailSearchActivity : AppCompatActivity() {
         binding.rvReviews.addItemDecoration(itemDecoration)
 
 
-        detailSearchViewModel.listReviews.observe(this){
-            setReviewData(it)
-        }
+        detailSearchViewModel.listReviews.observe(this){ setReviewData(it) }
 
         detailSearchViewModel.isLoading.observe(this){showLoading(it)}
 
@@ -80,59 +78,9 @@ class DetailSearchActivity : AppCompatActivity() {
             val token = it.token
             val userId = it.userId
             detailSearchViewModel.getReviews(token, id, userId)
-            println("GET USER")
         }
 
-        detailSearchViewModel.review.observe(this) {
-            if(it != null){
-                val reviewId = it.id
-                val tourismId = it.tourismId
-                binding.tvReviewTitle.text = "Your Review"
-                binding.reviewEditText.setText(it.review.toString())
-                binding.reviewEditText.isEnabled = false
-                binding.btnSubmitReview.visibility = View.GONE
-                binding.btnUpdateReview.visibility = View.VISIBLE
-                binding.btnUpdateReview.setOnClickListener{
-                    binding.reviewEditText.isEnabled = true
-                    binding.btnUpdateReview.visibility = View.GONE
-                    binding.btnPostUpdateReview.visibility = View.VISIBLE
-                }
-                detailSearchViewModel.getUser().observe(this){
-                    val token = it.token
-                    binding.btnPostUpdateReview.setOnClickListener{
-                        val review = binding.reviewEditText.text.toString()
-                        detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, review)
-                    }
-                }
-
-                if(it.rating == 1){
-                    buttonEnableOneStar()
-                    EXTRA_RATING = 1
-                }else if(it.rating == 2){
-                    buttonEnableOneStar()
-                    buttonEnableTwoStar()
-                    EXTRA_RATING = 2
-                }else if(it.rating == 3){
-                    buttonEnableOneStar()
-                    buttonEnableTwoStar()
-                    buttonEnableThreeStar()
-                    EXTRA_RATING = 3
-                }else if(it.rating == 4){
-                    buttonEnableOneStar()
-                    buttonEnableTwoStar()
-                    buttonEnableThreeStar()
-                    buttonEnableFourStar()
-                    EXTRA_RATING = 4
-                }else if(it.rating == 5){
-                    buttonEnableOneStar()
-                    buttonEnableTwoStar()
-                    buttonEnableThreeStar()
-                    buttonEnableFourStar()
-                    buttonEnableFiveStar()
-                    EXTRA_RATING = 5
-                }
-            }
-        }
+        detailSearchViewModel.review.observe(this) {getReview(it)}
 
         val lat = data.lat!!.toDouble()
         val lon = data.lon!!.toDouble()
@@ -155,15 +103,56 @@ class DetailSearchActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         binding.reviewEditText.clearFocus()
+                        binding.tvReviewTitle.text = "Your Review"
+                        binding.reviewEditText.isEnabled = false
+                        binding.btnUpdateReview.visibility = View.VISIBLE
+                        binding.btnUpdateReview.setOnClickListener{
+                            binding.reviewEditText.isEnabled = true
+                            binding.btnUpdateReview.visibility = View.GONE
+                            binding.btnPostUpdateReview.visibility = View.VISIBLE
+                        }
+
+                        detailSearchViewModel.getUser().observe(this){user ->
+                            detailSearchViewModel.getReviews(user.token, id, user.userId)
+                            detailSearchViewModel.review.observe(this){itemRating ->
+                                val tourismId = itemRating.tourismId
+                                val reviewId = itemRating.id
+                                binding.btnPostUpdateReview.setOnClickListener{
+                                    val reviewUpdate = binding.reviewEditText.text.toString()
+                                    detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, reviewUpdate)
+                                }
+                            }
+                        }
                     }
                 }
-                println(EXTRA_RATING)
             }
             binding.topProgressBar.visibility = View.VISIBLE
         }
     }
 
+    fun getReview(item: TourismRatingItem){
+        val reviewId = item.id
+        val tourismId = item.tourismId
+        binding.tvReviewTitle.text = "Your Review"
+        binding.reviewEditText.setText(item.review.toString())
+        binding.reviewEditText.isEnabled = false
+        binding.btnSubmitReview.visibility = View.GONE
+        binding.btnUpdateReview.visibility = View.VISIBLE
+        binding.btnUpdateReview.setOnClickListener{
+            binding.reviewEditText.isEnabled = true
+            binding.btnUpdateReview.visibility = View.GONE
+            binding.btnPostUpdateReview.visibility = View.VISIBLE
+        }
+        detailSearchViewModel.getUser().observe(this){
+            val token = it.token
+            binding.btnPostUpdateReview.setOnClickListener{
+                val review = binding.reviewEditText.text.toString()
+                detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, review)
+            }
+        }
 
+
+    }
 
     private fun getTemperature(lat: Double, lon: Double){
         val retrofit = Retrofit.Builder()
@@ -217,7 +206,6 @@ class DetailSearchActivity : AppCompatActivity() {
         binding.rvReviews.adapter = adapter
         adapter.setOnItemClickCallback()
     }
-
 
     private fun starRatingSetup(){
         binding.btnOneStar.setOnClickListener{

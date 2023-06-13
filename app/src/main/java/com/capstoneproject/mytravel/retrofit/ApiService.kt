@@ -75,6 +75,16 @@ interface ApiService {
         @Field("review") review: String
     ): Call<UpdateReviewResponse>
 
+    @FormUrlEncoded
+    @POST("profile/{userId}/update")
+    fun updateProfile(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int,
+        @Field("location") location: String,
+        @Field("age") age: Int,
+        @Field("cat_pref") catPref: String
+    ): Call<UpdateProfileResponse>
+
     @POST("directions/v2:computeRoutes")
     fun computeRoute(
         @Header("X-Goog-Api-Key") key: String,

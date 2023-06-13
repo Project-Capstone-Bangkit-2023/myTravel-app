@@ -14,7 +14,6 @@ import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.databinding.ActivitySettingBinding
 import com.capstoneproject.mytravel.model.UserPreference
 
-
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class SettingActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
@@ -37,13 +36,21 @@ class SettingActivity : AppCompatActivity() {
 
             binding.tvName.text = user.name
             binding.tvEmail.text = user.email
+            binding.tvAge.text = user.age.toString()
+            binding.tvLocation.text = user.location
+            binding.tvCatPref.text = user.cat_pref
         }
+
         binding.btnLogout.setOnClickListener{
             settingViewModel.logout()
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finish()
+        }
+
+        binding.btnEdit.setOnClickListener{
+            startActivity(Intent(this@SettingActivity, EditProfileActivity::class.java))
         }
     }
 
