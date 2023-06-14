@@ -13,7 +13,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="180dp"
             android:background="@color/blue_primary"
             android:orientation="vertical"
             android:paddingHorizontal="25dp"
@@ -32,7 +32,6 @@
                 <TextView
                     android:id="@+id/tvQuestion"
                     android:layout_width="250dp"
-                    android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
                     android:text="@string/where_do_you_want_to_go"
                     android:textColor="@color/white"
@@ -43,6 +42,7 @@
                     android:id="@+id/btnSetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
                     android:backgroundTint="#00FFFFFF"
                     android:src="@drawable/profile"
                     android:contentDescription="@string/button_option" />
@@ -52,7 +52,7 @@
                 android:id="@+id/edtSearch"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:paddingEnd="20dp"
                 android:autofillHints="Search Here.."
                 android:background="@drawable/rounded"
@@ -70,8 +70,8 @@
             android:id="@+id/llWelcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
@@ -85,6 +85,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="25dp"
+                android:layout_marginStart="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
@@ -96,8 +97,72 @@
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
+                android:layout_marginStart="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvSlideshow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="-15dp"
+                    android:layout_marginEnd="-15dp"
+                    android:layout_height="300dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="125dp"
+                    >
+                    <ImageView
+                        android:id="@+id/img1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_circle_20_grey"
+                        />
+                    <ImageView
+                        android:id="@+id/img2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_circle_20_grey"
+                        />
+                    <ImageView
+                        android:id="@+id/img3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_circle_20_grey"
+                        />
+                    <ImageView
+                        android:id="@+id/img4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_circle_20_grey"
+                        />
+                    <ImageView
+                        android:id="@+id/img5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_circle_20_grey"
+                        />
+                    <ImageView
+                        android:id="@+id/img6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_circle_20_grey"
+                        />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvRecommend"

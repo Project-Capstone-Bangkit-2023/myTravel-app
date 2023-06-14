@@ -1,7 +1,6 @@
 package com.capstoneproject.mytravel.retrofit
 
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 data class LatLng(val latitude: Double, val longitude: Double)

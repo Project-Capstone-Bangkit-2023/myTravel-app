@@ -44,6 +44,8 @@ class DetailNearbyActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        starRatingSetup()
+
         val data = intent.getParcelableExtra<Nearby>("DATA")
         val id = data?.id!!.toInt()
         val photo = data.photo
@@ -84,65 +86,7 @@ class DetailNearbyActivity : AppCompatActivity() {
             val token = it.token
             val userId = it.userId
             detailNearbyViewModel.getReviews(token, id, userId)
-            println("GET USER")
         }
-
-        detailNearbyViewModel.review.observe(this) {
-            if(it != null){
-                val reviewId = it.id
-                val tourismId = it.tourismId
-                binding.tvReviewTitle.text = "Your Review"
-                binding.reviewEditText.setText(it.review.toString())
-                binding.reviewEditText.isEnabled = false
-                binding.btnSubmitReview.visibility = View.GONE
-                binding.btnUpdateReview.visibility = View.VISIBLE
-                binding.btnUpdateReview.setOnClickListener{
-                    binding.reviewEditText.isEnabled = true
-                    binding.btnUpdateReview.visibility = View.GONE
-                    binding.btnPostUpdateReview.visibility = View.VISIBLE
-                }
-                detailNearbyViewModel.getUser().observe(this){
-                    val token = it.token
-                    binding.btnPostUpdateReview.setOnClickListener{
-                        val review = binding.reviewEditText.text.toString()
-                        detailNearbyViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, review)
-                    }
-                }
-
-                if(it.rating == 1){
-                    buttonEnableOneStar()
-                    EXTRA_RATING = 1
-                }else if(it.rating == 2){
-                    buttonEnableOneStar()
-                    buttonEnableTwoStar()
-                    EXTRA_RATING = 2
-                }else if(it.rating == 3){
-                    buttonEnableOneStar()
-                    buttonEnableTwoStar()
-                    buttonEnableThreeStar()
-                    EXTRA_RATING = 3
-                }else if(it.rating == 4){
-                    buttonEnableOneStar()
-                    buttonEnableTwoStar()
-                    buttonEnableThreeStar()
-                    buttonEnableFourStar()
-                    EXTRA_RATING = 4
-                }else if(it.rating == 5){
-                    buttonEnableOneStar()
-                    buttonEnableTwoStar()
-                    buttonEnableThreeStar()
-                    buttonEnableFourStar()
-                    buttonEnableFiveStar()
-                    EXTRA_RATING = 5
-                }
-            }
-        }
-
-        val lat = data.lat!!.toDouble()
-        val lon = data.lon!!.toDouble()
-
-        getTemperature(lat,lon)
-        starRatingSetup()
 
         binding.btnSubmitReview.setOnClickListener{
             detailNearbyViewModel.getUser().observe(this){ user ->
@@ -159,11 +103,89 @@ class DetailNearbyActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         binding.reviewEditText.clearFocus()
+                        recreate()
                     }
                 }
-                println(EXTRA_RATING)
             }
             binding.topProgressBar.visibility = View.VISIBLE
+        }
+
+        detailNearbyViewModel.review.observe(this) {review ->
+            if(review != null){
+                val reviewId = review.id
+                val tourismId = review.tourismId
+                binding.tvReviewTitle.text = "Your Review"
+                binding.reviewEditText.setText(review.review.toString())
+                binding.reviewEditText.isEnabled = false
+                binding.btnSubmitReview.visibility = View.GONE
+                binding.btnUpdateReview.visibility = View.VISIBLE
+                binding.btnUpdateReview.setOnClickListener{
+                    binding.reviewEditText.isEnabled = true
+                    binding.btnUpdateReview.visibility = View.GONE
+                    binding.btnPostUpdateReview.visibility = View.VISIBLE
+                }
+                detailNearbyViewModel.getUser().observe(this){
+                    val token = it.token
+                    val userId = it.userId
+                    binding.btnPostUpdateReview.setOnClickListener{
+                        val updateReview = binding.reviewEditText.text.toString()
+                        detailNearbyViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, updateReview, userId)
+                        recreate()
+                    }
+                }
+                setStar(review.rating)
+            }
+        }
+
+        val lat = data.lat!!.toDouble()
+        val lon = data.lon!!.toDouble()
+
+        getTemperature(lat,lon)
+
+    }
+
+    private fun setStar(rating: Int){
+        when (rating) {
+            1 -> {
+                buttonEnableOneStar()
+                buttonDisableTwoStar()
+                buttonDisableThreeStar()
+                buttonDisableFourStar()
+                buttonDisableFiveStar()
+                EXTRA_RATING = 1
+            }
+            2 -> {
+                buttonEnableOneStar()
+                buttonEnableTwoStar()
+                buttonDisableThreeStar()
+                buttonDisableFourStar()
+                buttonDisableFiveStar()
+                EXTRA_RATING = 2
+            }
+            3 -> {
+                buttonEnableOneStar()
+                buttonEnableTwoStar()
+                buttonEnableThreeStar()
+                buttonDisableFourStar()
+                buttonDisableFiveStar()
+                EXTRA_RATING = 3
+            }
+            4 -> {
+                buttonEnableOneStar()
+                buttonEnableTwoStar()
+                buttonEnableThreeStar()
+                buttonEnableFourStar()
+                buttonDisableFiveStar()
+                EXTRA_RATING = 4
+            }
+            5 -> {
+                buttonEnableOneStar()
+                buttonEnableTwoStar()
+                buttonEnableThreeStar()
+                buttonEnableFourStar()
+                buttonEnableFiveStar()
+                EXTRA_RATING = 5
+            }
         }
     }
 

@@ -122,14 +122,6 @@ class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
                             })
 
                         }
-                    val handler = Handler()
-                    val delayMillis: Long = 4000 // Waktu penundaan dalam milidetik (misalnya, 2000 ms)
-
-                    handler.postDelayed(
-                        {
-                        },
-                        delayMillis
-                    )
                     }else{
                         _isLoading.value = false
                     }

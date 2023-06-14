@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -126,7 +127,15 @@ class EditProfileActivity : AppCompatActivity() {
                 val updateAge = (binding.ageEditText.text.toString()).toInt()
                 val updateLocation = binding.locationEditText.text.toString()
                 val catPref = categoryCondition(isChecked1,isChecked2,isChecked3,isChecked4,isChecked5,isChecked6)
-                editProfileViewModel.updateProfile(token, userId, updateLocation, updateAge, catPref)
+                if(catPref.length > 5){
+                    editProfileViewModel.updateProfile(token, userId, updateLocation, updateAge, catPref)
+                }else{
+                    Toast.makeText(
+                        this,
+                        getString(R.string.update_failed_category_empty),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
@@ -134,12 +143,9 @@ class EditProfileActivity : AppCompatActivity() {
     private fun alertShow(alertShow: Boolean) {
         if (alertShow) {
             AlertDialog.Builder(this@EditProfileActivity).apply {
-                setTitle(getString(R.string.register_success))
-                setMessage(getString(R.string.register_success_text))
+                setTitle(getString(R.string.update_success))
+                setMessage(getString(R.string.update_success_text))
                 setPositiveButton(getString(R.string.next)) { _, _ ->
-                    val intent = Intent(context, HomeActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
                     finish()
                 }
                 create()
@@ -147,8 +153,8 @@ class EditProfileActivity : AppCompatActivity() {
             }
         } else {
             AlertDialog.Builder(this@EditProfileActivity).apply {
-                setTitle(getString(R.string.register_failed))
-                setMessage(getString(R.string.register_failed_text))
+                setTitle(getString(R.string.update_failed))
+                setMessage(getString(R.string.update_failed_text))
                 setPositiveButton(getString(R.string.close)) { _, _ ->
 
                 }
@@ -168,27 +174,27 @@ class EditProfileActivity : AppCompatActivity() {
         val checkedList = mutableListOf<String>()
 
         if (checked1) {
-            checkedList.add("Bahari")
+            checkedList.add(getString(R.string.bahari))
         }
 
         if (checked2) {
-            checkedList.add("Budaya")
+            checkedList.add(getString(R.string.budaya))
         }
 
         if (checked3) {
-            checkedList.add("Cagar Alam")
+            checkedList.add(getString(R.string.cagar_alam))
         }
 
         if (checked4) {
-            checkedList.add("Taman Hiburan")
+            checkedList.add(getString(R.string.taman_hiburan))
         }
 
         if (checked5) {
-            checkedList.add("Tempat Ibadah")
+            checkedList.add(getString(R.string.tempat_ibadah))
         }
 
         if (checked6) {
-            checkedList.add("Pusat Perbelanjaan")
+            checkedList.add(getString(R.string.pusat_perbelanjaan))
         }
 
         return checkedList.joinToString(",")

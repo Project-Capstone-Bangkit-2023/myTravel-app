@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -127,7 +128,15 @@ class FirstSetupCategoryActivity : AppCompatActivity() {
 
         binding.btnFinish.setOnClickListener{
             val catPref = categoryCondition(isChecked1,isChecked2,isChecked3,isChecked4,isChecked5,isChecked6)
-            firstSetupViewModel.register(photoUrl,name,email,sendLoc,age,catPref)
+            if(catPref.length > 5){
+                firstSetupViewModel.register(photoUrl,name,email,sendLoc,age,catPref)
+            }else{
+                Toast.makeText(
+                    this,
+                    getString(R.string.update_failed_category_empty),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -168,27 +177,27 @@ class FirstSetupCategoryActivity : AppCompatActivity() {
         val checkedList = mutableListOf<String>()
 
         if (checked1) {
-            checkedList.add("Bahari")
+            checkedList.add(getString(R.string.bahari))
         }
 
         if (checked2) {
-            checkedList.add("Budaya")
+            checkedList.add(getString(R.string.budaya))
         }
 
         if (checked3) {
-            checkedList.add("Cagar Alam")
+            checkedList.add(getString(R.string.cagar_alam))
         }
 
         if (checked4) {
-            checkedList.add("Taman Hiburan")
+            checkedList.add(getString(R.string.taman_hiburan))
         }
 
         if (checked5) {
-            checkedList.add("Tempat Ibadah")
+            checkedList.add(getString(R.string.tempat_ibadah))
         }
 
         if (checked6) {
-            checkedList.add("Pusat Perbelanjaan")
+            checkedList.add(getString(R.string.pusat_perbelanjaan))
         }
 
         return checkedList.joinToString(",")

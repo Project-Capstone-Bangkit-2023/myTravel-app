@@ -73,11 +73,6 @@ class LoginActivity : AppCompatActivity() {
             alertShow(it)
         }
 
-        loginViewModel.getUser().observe(this) { user ->
-            println("INI TOKEN : " + user.token)
-            println("INI IS LOGIN : " + user.isLogin)
-        }
-
         loginViewModel.isLoading.observe(this){
             showLoading(it)
         }
@@ -99,13 +94,13 @@ class LoginActivity : AppCompatActivity() {
                 loginViewModel.token.observe(this){
                     if(!isToken) {
                         if (it != null) {
-                            Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                            Log.d(TAG, getString(R.string.firebase_auth_with_google) + account.id)
                             firebaseAuthWithGoogle(account.idToken!!)
                             val tokenBearer = "Bearer $it"
                             loginViewModel.getProfile(tokenBearer, email, photoUrl)
                         } else {
                             val data =
-                                UserModel(0, photoUrl, name, email, "location", 0, "", false, "")
+                                UserModel(0, photoUrl, name, email, getString(R.string.location), 0, "", false, "")
                             val intentToDetail =
                                 Intent(this@LoginActivity, FirstSetupActivity::class.java)
                             intentToDetail.putExtra("DATA", data)
@@ -116,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: ApiException) {
-                Log.w(TAG, "Google sign in failed", e)
+                Log.w(TAG, getString(R.string.google_signin_failed), e)
             }
         }
     }
@@ -126,11 +121,11 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential:success")
+                    Log.d(TAG, getString(R.string.signin_with_credential_success))
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Log.w(TAG, getString(R.string.signin_with_credential_failed), task.exception)
                     updateUI(null)
                 }
             }

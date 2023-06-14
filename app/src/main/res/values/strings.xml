@@ -35,10 +35,29 @@
     <string name="login_failed_text">Login gagal</string>
     <string name="login_success">Login Success</string>
     <string name="login_success_text">Selamat datang kembali</string>
+
     <string name="register_success">Register Success</string>
     <string name="register_success_text">Selamat datang di MyTravel! Mari jelajahi Indonesia.</string>
     <string name="register_failed">Register Failed</string>
     <string name="register_failed_text">Gagal mendaftarkan akun! Periksa koneksi anda lalu coba lagi.</string>
+
+    <string name="update_success">Ubah Sukses</string>
+    <string name="update_success_text">Data anda berhasil diubah.</string>
+    <string name="update_failed">Ubah Gagal</string>
+    <string name="update_failed_text">Gagal mengubah data! Periksa koneksi anda lalu coba lagi.</string>
+
+    <string name="bahari">Bahari</string>
+    <string name="budaya">Budaya</string>
+    <string name="cagar_alam">Cagar Alam</string>
+    <string name="taman_hiburan">Taman Hiburan</string>
+    <string name="tempat_ibadah">Tempat Ibadah</string>
+    <string name="pusat_perbelanjaan">Pusat Perbelanjaan</string>
+
+    <string name="google_signin_failed">Google sign in failed</string>
+    <string name="firebase_auth_with_google">firebaseAuthWithGoogle:</string>
+    <string name="signin_with_credential_success">signInWithCredential:success</string>
+    <string name="signin_with_credential_failed">signInWithCredential:failure</string>
+
     <string name="next">Next</string>
     <string name="close">Close</string>
     <string name="username">Nama</string>
@@ -48,4 +67,9 @@
     <string name="keluar">Keluar</string>
     <string name="Profile">Profile</string>
     <string name="edit">Ubah</string>
+    <string name="review_success">Review anda telah unggah, terima kasih!</string>
+    <string name="your_review">Your Review</string>
+
+    <string name="update_failed_category_empty">Silahkan pilih kategori terlebih dahulu!</string>
+
 </resources>

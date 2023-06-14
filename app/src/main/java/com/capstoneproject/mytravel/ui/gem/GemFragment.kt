@@ -33,45 +33,6 @@ class GemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(requireContext())
-        binding.rvStory.layoutManager = layoutManager
-
-        gemViewModel = ViewModelProvider(this).get(GemViewModel::class.java)
-        gemViewModel.listUser.observe(requireActivity()) { Itemsitem -> setUserData(Itemsitem) }
-        gemViewModel.isLoading.observe(requireActivity()) { showLoading(it) }
-
-        binding.btnButton.setOnClickListener{
-            startActivity(Intent(requireActivity(), DetailGemActivity::class.java))
-        }
-    }
-
-    private fun setUserData(userData: List<ItemsItem>){
-        val listGem = ArrayList<Gem>()
-        for (i in userData) {
-            val username = i.login
-            val photo = i.avatarUrl
-            val url = i.htmlUrl
-            val gem = Gem(username , photo, url)
-            listGem.add(gem)
-        }
-        adapter = GemAdapter(listGem)
-        binding.rvStory.adapter = adapter
-        adapter.setOnItemClickCallback(object : GemAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Gem) {
-                val intentToDetail = Intent(requireContext(), DetailGemActivity::class.java)
-                intentToDetail.putExtra("DATA", data)
-                println(data)
-                startActivity(intentToDetail)
-            }
-        })
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
     }
 
     override fun onDestroyView() {

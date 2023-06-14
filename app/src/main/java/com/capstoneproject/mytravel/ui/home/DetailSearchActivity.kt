@@ -99,11 +99,11 @@ class DetailSearchActivity : AppCompatActivity() {
                     if(it){
                         Toast.makeText(
                             this,
-                            "Your review is posted. Thank you! ",
+                            getString(R.string.review_success),
                             Toast.LENGTH_SHORT
                         ).show()
                         binding.reviewEditText.clearFocus()
-                        binding.tvReviewTitle.text = "Your Review"
+                        binding.tvReviewTitle.text = getString(R.string.your_review)
                         binding.reviewEditText.isEnabled = false
                         binding.btnUpdateReview.visibility = View.VISIBLE
                         binding.btnUpdateReview.setOnClickListener{
@@ -120,6 +120,7 @@ class DetailSearchActivity : AppCompatActivity() {
                                 binding.btnPostUpdateReview.setOnClickListener{
                                     val reviewUpdate = binding.reviewEditText.text.toString()
                                     detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, reviewUpdate)
+                                    recreate()
                                 }
                             }
                         }
@@ -133,7 +134,7 @@ class DetailSearchActivity : AppCompatActivity() {
     fun getReview(item: TourismRatingItem){
         val reviewId = item.id
         val tourismId = item.tourismId
-        binding.tvReviewTitle.text = "Your Review"
+        binding.tvReviewTitle.text = getString(R.string.your_review)
         binding.reviewEditText.setText(item.review.toString())
         binding.reviewEditText.isEnabled = false
         binding.btnSubmitReview.visibility = View.GONE

@@ -61,15 +61,9 @@ class NearbyAdapter(private val listNearby: List<Nearby>) : RecyclerView.Adapter
                     if (response.isSuccessful) {
                         val weatherResponse = response.body()
                         weatherResponse?.let {
-                            val latWeather = it.coord.lat
-                            val lonWeather = it.coord.lon
-                            println("LAT WEATHER : $latWeather")
-                            println("LON WEATHER : $lonWeather")
                             val temperatureKelvin = it.main.temp.toString()
                             val temperatureCelsius = temperatureKelvin.toDouble() - 273.0
                             val temperature = DecimalFormat("##.#").format(temperatureCelsius)
-                            val humidity = it.main.humidity
-
                             holder.tvWeather.text = "$temperature °C"
                         }
                     } else {
@@ -84,8 +78,7 @@ class NearbyAdapter(private val listNearby: List<Nearby>) : RecyclerView.Adapter
 
         val photoUrl = "https://storage.googleapis.com/mytravel_bucket/places/$photo"
         val formatDistance = String.format("%.1f", distance)
-        val latitude = lat
-        val longitude = lon
+
         Glide.with(holder.itemView.context)
             .load(photoUrl)
             .into(holder.imgPhoto)
@@ -93,8 +86,8 @@ class NearbyAdapter(private val listNearby: List<Nearby>) : RecyclerView.Adapter
         holder.tvAddress.text = city
         holder.tvDistance.text = "$formatDistance km"
         holder.tvWeather.text = "0.0"
-        if (latitude != null && longitude != null) {
-            getTemperature(latitude,longitude)
+        if (lat != null && lon != null) {
+            getTemperature(lat,lon)
         }
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listNearby[holder.adapterPosition])
