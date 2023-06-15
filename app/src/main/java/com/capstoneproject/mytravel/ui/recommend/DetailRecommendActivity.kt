@@ -10,7 +10,6 @@ import com.capstoneproject.mytravel.R
 import com.capstoneproject.mytravel.adapter.Recommend
 import com.capstoneproject.mytravel.adapter.ReviewsAdapter
 import com.capstoneproject.mytravel.databinding.ActivityDetailRecommendBinding
-import com.capstoneproject.mytravel.retrofit.FollowerResponseItem
 
 
 @Suppress("DEPRECATION")
@@ -44,8 +43,6 @@ class DetailRecommendActivity : AppCompatActivity() {
 
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvReviews.addItemDecoration(itemDecoration)
-        data?.name?.let { recommendReviewsViewModel.findUser(it) }
-
     }
 
     private fun starRatingSetup(){

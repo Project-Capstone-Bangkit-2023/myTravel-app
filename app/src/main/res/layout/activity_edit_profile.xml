@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Usia"
+                android:text="@string/usia"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lokasi"
+                android:text="@string/lokasi"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kategori"
+                android:text="@string/kategori"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/black"
@@ -111,14 +111,15 @@
                             android:layout_width="160dp"
                             android:layout_height="160dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/bahari" />
+                            android:src="@drawable/bahari"
+                            android:contentDescription="@string/bahari" />
 
                         <TextView
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="@color/transparent_black"
-                            android:text="Bahari"
+                            android:text="@string/bahari"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="18sp"
@@ -149,14 +150,15 @@
                             android:layout_width="160dp"
                             android:layout_height="160dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/budaya" />
+                            android:src="@drawable/budaya"
+                            android:contentDescription="@string/budaya" />
 
                         <TextView
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="@color/transparent_black"
-                            android:text="Budaya"
+                            android:text="@string/budaya"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="18sp"
@@ -196,14 +198,15 @@
                             android:layout_width="160dp"
                             android:layout_height="160dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/cagaralam" />
+                            android:src="@drawable/cagaralam"
+                            android:contentDescription="@string/cagar_alam" />
 
                         <TextView
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="@color/transparent_black"
-                            android:text="Cagar Alam"
+                            android:text="@string/cagar_alam"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="18sp"
@@ -236,14 +239,15 @@
                             android:layout_width="160dp"
                             android:layout_height="160dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/tamanhiburan" />
+                            android:src="@drawable/tamanhiburan"
+                            android:contentDescription="@string/taman_hiburan" />
 
                         <TextView
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="@color/transparent_black"
-                            android:text="Taman Hiburan"
+                            android:text="@string/taman_hiburan"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="18sp"
@@ -283,14 +287,15 @@
                             android:layout_width="160dp"
                             android:layout_height="160dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/tempatibadah" />
+                            android:src="@drawable/tempatibadah"
+                            android:contentDescription="@string/tempat_ibadah" />
 
                         <TextView
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="@color/transparent_black"
-                            android:text="Tempat Ibadah"
+                            android:text="@string/tempat_ibadah"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="18sp"
@@ -320,20 +325,20 @@
                             android:layout_width="160dp"
                             android:layout_height="160dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/pusatperbelanjaan" />
+                            android:src="@drawable/pusatperbelanjaan"
+                            android:contentDescription="@string/cagar_alam" />
 
                         <TextView
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="@color/transparent_black"
-                            android:text="Pusat\nPerbelanjaan"
+                            android:text="@string/pusat_nperbelanjaan"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             android:textStyle="bold" />
                     </androidx.cardview.widget.CardView>
-
                 </LinearLayout>
             </LinearLayout>
 
@@ -343,7 +348,7 @@
                 android:layout_height="70dp"
                 android:backgroundTint="@color/orange"
                 android:layout_marginTop="30dp"
-                android:text="Ubah data saya" />
+                android:text="@string/ubah_data_saya" />
         </LinearLayout>
     </ScrollView>
 

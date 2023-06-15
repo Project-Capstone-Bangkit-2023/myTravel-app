@@ -1,14 +1,11 @@
 package com.capstoneproject.mytravel.ui.nearby
 
-import android.os.AsyncTask
-import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.capstoneproject.mytravel.adapter.Nearby
-import com.capstoneproject.mytravel.adapter.Place
 import com.capstoneproject.mytravel.model.UserModel
 import com.capstoneproject.mytravel.model.UserPreference
 import com.capstoneproject.mytravel.retrofit.*
@@ -17,7 +14,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.ArrayList
 
 class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
 
@@ -41,7 +37,7 @@ class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
         private const val TAG = "Nearby View Model"
     }
 
-    fun findPlaces(lat: Double, lon: Double, token: String) {
+    fun findPlaces(lat: Double, lon: Double, token: String, fieldMask: String) {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://routes.googleapis.com/")
@@ -74,8 +70,7 @@ class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
                                 Origin(Location(LatLng(lat, lon))),
                                 Destination(Location(LatLng(latDestination, lonDestination)))
                             )
-
-                            val clientRoute = apiService.computeRoute(key, "routes.duration,routes.distanceMeters", request)
+                            val clientRoute = apiService.computeRoute(key, fieldMask , request)
                             clientRoute.enqueue(object : Callback<RouteResponse> {
                                 override fun onResponse(
                                     call: Call<RouteResponse>,

@@ -49,24 +49,34 @@
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvDistance"
-                android:layout_width="85dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="2dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/rounded"
+                android:elevation="10dp"
                 android:backgroundTint="@color/blue_primary"
-                android:paddingVertical="5dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:text="@string/star_4"
-                android:drawableLeft="@drawable/baseline_location_on_24_white"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="13sp"
+                card_view:cardCornerRadius="20dp"
                 card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="75dp"
+                    android:layout_height="25dp"
+                    android:layout_marginVertical="1dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/rounded"
+                    android:backgroundTint="@color/blue_primary"
+                    android:drawableLeft="@drawable/baseline_location_on_24_white"
+                    android:paddingVertical="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/km"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tv_address"
@@ -76,25 +86,33 @@
                 android:textSize="13sp"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/tv_item_name" />
-
-            <TextView
-                android:id="@+id/tvWeather"
-                android:layout_width="85dp"
-                android:layout_height="25dp"
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/rounded"
-                android:backgroundTint="@color/white"
-                android:paddingVertical="2dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:text="@string/star_4"
-                android:drawableLeft="@drawable/sunny"
-                android:textAlignment="center"
-                android:textColor="@color/grey"
-                android:textSize="13sp"
+                card_view:cardCornerRadius="20dp"
                 card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/tvDistance" />
+                card_view:layout_constraintTop_toBottomOf="@+id/cvDistance"
+                >
+                <TextView
+                    android:id="@+id/tvWeather"
+                    android:layout_width="75dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/rounded"
+                    android:backgroundTint="@color/white"
+                    android:paddingVertical="2dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/temperature"
+                    android:drawableLeft="@drawable/sunny"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey"
+                    android:textSize="13sp" />
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

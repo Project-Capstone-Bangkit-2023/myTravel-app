@@ -1,6 +1,5 @@
 package com.capstoneproject.mytravel.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,13 +22,8 @@ class DetailSearchViewModel(private val pref: UserPreference) : ViewModel() {
     private val _listReviews = MutableLiveData<List<TourismRatingItem>>()
     val listReviews: LiveData<List<TourismRatingItem>> = _listReviews
 
-    private val _reviewUser = MutableLiveData<UserReview>()
-    val reviewUser: LiveData<UserReview> = _reviewUser
-
     private val _review = MutableLiveData<TourismRatingItem>()
     val review: LiveData<TourismRatingItem> = _review
-
-
 
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
@@ -49,13 +43,12 @@ class DetailSearchViewModel(private val pref: UserPreference) : ViewModel() {
 
                     for(i in _listReviews.value!!){
                         val idReview = i.userId
-                        println(idReview)
                         if(idUser == idReview){
                             _review.value = i
                         }
                     }
                 } else {
-                    println(response.message())
+
                 }
             }
             override fun onFailure(call: Call<PlaceDetailResponse>, t: Throwable) {
@@ -75,11 +68,9 @@ class DetailSearchViewModel(private val pref: UserPreference) : ViewModel() {
                 if(response.isSuccessful){
                     _isLoading.value = false
                     _isPostSuccess.value = response.isSuccessful
-                    println(response.message())
                 }else{
                     _isLoading.value = false
                     _isPostSuccess.value = response.isSuccessful
-                    println(response.message())
                 }
             }
             override fun onFailure(call: Call<PostReviewResponse>, t: Throwable) {
@@ -99,12 +90,9 @@ class DetailSearchViewModel(private val pref: UserPreference) : ViewModel() {
                 if(response.isSuccessful){
                     _isLoading.value = false
                     _isPostSuccess.value = response.isSuccessful
-                    println(response.body()?.data)
-                    println(response.message())
                 }else{
                     _isLoading.value = false
                     _isPostSuccess.value = response.isSuccessful
-                    println(response.message())
                 }
             }
             override fun onFailure(call: Call<UpdateReviewResponse>, t: Throwable) {

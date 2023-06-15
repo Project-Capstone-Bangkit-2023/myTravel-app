@@ -1,5 +1,6 @@
 package com.capstoneproject.mytravel.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.DecimalFormat
 
-class NearbyAdapter(private val listNearby: List<Nearby>) : RecyclerView.Adapter<NearbyAdapter.ListViewHolder>() {
+class NearbyAdapter(private val context: Context, private val listNearby: List<Nearby>) : RecyclerView.Adapter<NearbyAdapter.ListViewHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -64,9 +65,10 @@ class NearbyAdapter(private val listNearby: List<Nearby>) : RecyclerView.Adapter
                             val temperatureKelvin = it.main.temp.toString()
                             val temperatureCelsius = temperatureKelvin.toDouble() - 273.0
                             val temperature = DecimalFormat("##.#").format(temperatureCelsius)
-                            holder.tvWeather.text = "$temperature °C"
+                            holder.tvWeather.text = context.getString(R.string.temperature, temperature)
                         }
                     } else {
+                        holder.tvWeather.visibility = View.GONE
                     }
                 }
 
@@ -84,7 +86,7 @@ class NearbyAdapter(private val listNearby: List<Nearby>) : RecyclerView.Adapter
             .into(holder.imgPhoto)
         holder.tvName.text = name
         holder.tvAddress.text = city
-        holder.tvDistance.text = "$formatDistance km"
+        holder.tvDistance.text = context.getString(R.string.km, formatDistance)
         holder.tvWeather.text = "0.0"
         if (lat != null && lon != null) {
             getTemperature(lat,lon)

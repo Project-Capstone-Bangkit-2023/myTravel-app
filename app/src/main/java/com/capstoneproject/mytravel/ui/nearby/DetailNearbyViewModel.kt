@@ -1,6 +1,5 @@
 package com.capstoneproject.mytravel.ui.nearby
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,9 +21,6 @@ class DetailNearbyViewModel(private val pref: UserPreference) : ViewModel() {
 
     private val _listReviews = MutableLiveData<List<TourismRatingItem>>()
     val listReviews: LiveData<List<TourismRatingItem>> = _listReviews
-
-    private val _reviewUser = MutableLiveData<UserReview>()
-    val reviewUser: LiveData<UserReview> = _reviewUser
 
     private val _review = MutableLiveData<TourismRatingItem>()
     val review: LiveData<TourismRatingItem> = _review
@@ -78,7 +74,6 @@ class DetailNearbyViewModel(private val pref: UserPreference) : ViewModel() {
                 }else{
                     _isLoading.value = false
                     _isPostSuccess.value = response.isSuccessful
-                    println(response.message())
                 }
             }
             override fun onFailure(call: Call<PostReviewResponse>, t: Throwable) {

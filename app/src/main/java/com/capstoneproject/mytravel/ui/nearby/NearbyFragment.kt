@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.capstoneproject.mytravel.R
 import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.adapter.Nearby
 import com.capstoneproject.mytravel.adapter.NearbyAdapter
@@ -36,7 +37,6 @@ class NearbyFragment : Fragment() {
     private val binding get() = _binding
     private lateinit var nearbyViewModel: NearbyViewModel
     private lateinit var adapter: NearbyAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,9 +67,7 @@ class NearbyFragment : Fragment() {
             ViewModelFactory(UserPreference.getInstance(requireContext().dataStore))
         )[NearbyViewModel::class.java]
 
-
         nearbyViewModel.isLoading.observe(requireActivity()) { showLoading(it) }
-
     }
     private fun setPlaceData(placeData: List<Nearby>){
         val listPlace = ArrayList<Nearby>()
@@ -89,7 +87,7 @@ class NearbyFragment : Fragment() {
             val place = Nearby(id,name, category, photo, city, rating, price, desc, lat, lon, distance)
             listPlace.add(place)
         }
-        adapter = NearbyAdapter(listPlace.sortedBy { it.distance })
+        adapter = NearbyAdapter(requireContext(), listPlace.sortedBy { it.distance })
         binding?.rvStory?.adapter = adapter
         adapter.setOnItemClickCallback(object : NearbyAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Nearby) {
@@ -143,7 +141,8 @@ class NearbyFragment : Fragment() {
 
                     nearbyViewModel.getUser().observe(requireActivity()){ user ->
                         val token = user.token
-                        nearbyViewModel.findPlaces(lat,lon,token)
+                        val fieldMask = getString(R.string.field_mask)
+                        nearbyViewModel.findPlaces(lat,lon,token,fieldMask)
 
                         nearbyViewModel.listPlace.observe(requireActivity()){setPlaceData(it)}
                     }
@@ -151,9 +150,15 @@ class NearbyFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Location is not found. Try Again",
+                        getString(R.string.location_not_found),
                         Toast.LENGTH_SHORT
                     ).show()
+                    requestPermissionLauncher.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
                 }
             }
         } else {

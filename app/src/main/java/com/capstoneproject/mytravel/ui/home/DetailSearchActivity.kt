@@ -32,6 +32,7 @@ import java.text.DecimalFormat
 import java.util.ArrayList
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+@Suppress("DEPRECATION")
 class DetailSearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailSearchBinding
@@ -131,7 +132,7 @@ class DetailSearchActivity : AppCompatActivity() {
         }
     }
 
-    fun getReview(item: TourismRatingItem){
+    private fun getReview(item: TourismRatingItem){
         val reviewId = item.id
         val tourismId = item.tourismId
         binding.tvReviewTitle.text = getString(R.string.your_review)
@@ -151,8 +152,6 @@ class DetailSearchActivity : AppCompatActivity() {
                 detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, review)
             }
         }
-
-
     }
 
     private fun getTemperature(lat: Double, lon: Double){

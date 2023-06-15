@@ -8,7 +8,6 @@ import androidx.lifecycle.asLiveData
 import com.capstoneproject.mytravel.model.UserModel
 import com.capstoneproject.mytravel.model.UserPreference
 import com.capstoneproject.mytravel.retrofit.ApiConfig
-import com.capstoneproject.mytravel.retrofit.RegisterResponse
 import com.capstoneproject.mytravel.retrofit.UpdateProfileResponse
 import retrofit2.Call
 import retrofit2.Callback

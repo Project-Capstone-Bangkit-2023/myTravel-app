@@ -1,6 +1,5 @@
 package com.capstoneproject.mytravel.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +27,6 @@ class HomeViewModel(private val pref: UserPreference) : ViewModel() {
 
     var failureToast = MutableLiveData<Boolean?>()
 
-
     companion object{
         private const val TAG = "HomeViewModel"
     }
@@ -44,15 +42,12 @@ class HomeViewModel(private val pref: UserPreference) : ViewModel() {
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     _listPlace.value = response.body()?.data
-                    println("SUCCESS")
                 } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                    println(response.message())
+
                 }
             }
             override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
                 failureToast.value = true
             }
         })

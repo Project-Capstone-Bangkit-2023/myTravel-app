@@ -1,6 +1,5 @@
 package com.capstoneproject.mytravel.ui.home
 
-
 import androidx.appcompat.widget.SearchView
 import android.app.SearchManager
 import android.content.Context
@@ -32,8 +31,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import java.util.*
 
-
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+@Suppress("DEPRECATION")
 class HomeFragment : Fragment(){
 
     private var _binding: FragmentHomeBinding? = null
@@ -86,7 +85,6 @@ class HomeFragment : Fragment(){
                 }
                 return true
             }
-
             override fun onQueryTextChange(newText: String): Boolean {
 
                 return false
@@ -103,6 +101,7 @@ class HomeFragment : Fragment(){
         super.onResume()
         setSlideshow(true)
     }
+
     private fun setSlideshow(play: Boolean){
         if(play){
             val images = listOf(R.drawable.bahari, R.drawable.budaya, R.drawable.cagaralam, R.drawable.tempatibadah, R.drawable.tamanhiburan, R.drawable.pusatperbelanjaan)
@@ -188,7 +187,7 @@ class HomeFragment : Fragment(){
             listPlace.add(place)
             println(listPlace)
         }
-        adapter = PlaceAdapter(listPlace)
+        adapter = PlaceAdapter(requireContext(), listPlace)
         binding.rvPlace.adapter = adapter
         adapter.setOnItemClickCallback(object : PlaceAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Place) {

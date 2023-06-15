@@ -1,7 +1,6 @@
 package com.capstoneproject.mytravel.ui.setting
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +12,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
-import com.capstoneproject.mytravel.HomeActivity
 import com.capstoneproject.mytravel.R
 import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.databinding.ActivityEditProfileBinding

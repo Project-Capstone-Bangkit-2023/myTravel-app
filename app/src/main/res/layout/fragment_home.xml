@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
+    android:paddingBottom="50dp"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -130,36 +131,41 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/baseline_circle_20_grey"
-                        />
+                        android:contentDescription="@string/image_1_mark" />
                     <ImageView
                         android:id="@+id/img2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/baseline_circle_20_grey"
+                        android:contentDescription="@string/image_2_mark"
                         />
                     <ImageView
                         android:id="@+id/img3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/baseline_circle_20_grey"
+                        android:contentDescription="@string/image_3_mark"
                         />
                     <ImageView
                         android:id="@+id/img4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/baseline_circle_20_grey"
+                        android:contentDescription="@string/image_4_mark"
                         />
                     <ImageView
                         android:id="@+id/img5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/baseline_circle_20_grey"
+                        android:contentDescription="@string/image_5_mark"
                         />
                     <ImageView
                         android:id="@+id/img6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/baseline_circle_20_grey"
+                        android:contentDescription="@string/image_6_mark"
                         />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -366,7 +372,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:padding="15dp"
+            android:padding="5dp"
             android:id="@+id/rvPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

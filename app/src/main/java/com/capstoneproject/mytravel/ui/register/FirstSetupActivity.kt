@@ -16,7 +16,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
-import com.capstoneproject.mytravel.MainActivity
 import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.databinding.ActivityFirstSetupBinding
 import com.capstoneproject.mytravel.model.UserModel

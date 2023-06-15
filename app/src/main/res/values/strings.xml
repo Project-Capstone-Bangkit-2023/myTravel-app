@@ -25,7 +25,11 @@
     <string name="place_name">Nama Tempat</string>
     <string name="star_4">Star 4*</string>
     <string name="gem">Gem</string>
+
     <string name="temperature">%s °C</string>
+    <string name="km">%s km</string>
+    <string name="token_bearer">Bearer %s</string>
+
     <string name="address">Alamat</string>
     <string name="detail_recommend">Detail Recommend</string>
     <string name="setting">Setting</string>
@@ -71,5 +75,37 @@
     <string name="your_review">Your Review</string>
 
     <string name="update_failed_category_empty">Silahkan pilih kategori terlebih dahulu!</string>
-
+    <string name="field_mask">routes.duration,routes.distanceMeters</string>
+    <string name="location_not_found">Lokasi tidak ditemukan. Silahkan coba lagi</string>
+    <string name="image_1_mark">Image 1 Mark</string>
+    <string name="image_2_mark">Image 2 Mark</string>
+    <string name="image_3_mark">Image 3 Mark</string>
+    <string name="image_4_mark">Image 4 Mark</string>
+    <string name="image_5_mark">Image 5 Mark</string>
+    <string name="image_6_mark">Image 6 Mark</string>
+    <string name="_4_8">4.8</string>
+    <string name="_26_c">26°C</string>
+    <string name="_30000">30000</string>
+    <string name="details">Details</string>
+    <string name="write_a_review">Write a review</string>
+    <string name="button_1_star">Button 1 Star</string>
+    <string name="button_2_star">Button 2 Star</string>
+    <string name="button_3_star">Button 3 Star</string>
+    <string name="button_4_star">Button 4 Star</string>
+    <string name="button_5_star">Button 5 Star</string>
+    <string name="review">Review</string>
+    <string name="post">Post</string>
+    <string name="update_review">Update Review</string>
+    <string name="post_update_review">Post Update Review</string>
+    <string name="usia">Usia</string>
+    <string name="lokasi">Lokasi</string>
+    <string name="kategori">Kategori</string>
+    <string name="pusat_nperbelanjaan">Pusat\nPerbelanjaan</string>
+    <string name="ubah_data_saya">Ubah data saya</string>
+    <string name="first_setup_image">First Setup Image</string>
+    <string name="get_started">Get Started!</string>
+    <string name="complete_your_data_and_start_travel">Complete your data and start travel</string>
+    <string name="insert_your_age">Insert your age</string>
+    <string name="age_setup">Age</string>
+    <string name="location_setup">Location</string>
 </resources>

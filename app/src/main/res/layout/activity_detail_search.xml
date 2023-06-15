@@ -69,9 +69,9 @@
                     android:id="@+id/tv_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:paddingTop="5dp"
-                    android:text="4.8"
+                    android:text="@string/_4_8"
                     android:textAlignment="center"
                     android:textColor="@color/orange"
                     app:drawableLeftCompat="@drawable/baseline_star_18_orange" />
@@ -82,7 +82,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="75dp"
                     android:paddingTop="5dp"
-                    android:text="26°C"
+                    android:text="@string/_26_c"
                     android:textAlignment="center"
                     android:textColor="@color/grey"
                     app:drawableLeftCompat="@drawable/img_sunny" />
@@ -93,7 +93,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="75dp"
                     android:paddingTop="5dp"
-                    android:text="30K"
+                    android:text="@string/_30000"
                     android:textAlignment="center"
                     android:textColor="@color/grey"
                     app:drawableLeftCompat="@drawable/img_htm" />
@@ -114,7 +114,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Details"
+                android:text="@string/details"
                 android:textColor="@color/black"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -146,7 +146,7 @@
                     android:id="@+id/tvReviewTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Write a review"
+                    android:text="@string/write_a_review"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold"
@@ -169,7 +169,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:backgroundTint="@color/white"
-                        android:contentDescription="Button 1 Star"
+                        android:contentDescription="@string/button_1_star"
                         android:src="@drawable/baseline_star_border_30" />
 
                     <ImageButton
@@ -177,7 +177,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:backgroundTint="@color/white"
-                        android:contentDescription="Button 1 Star"
+                        android:contentDescription="@string/button_2_star"
                         android:src="@drawable/baseline_star_border_30" />
 
                     <ImageButton
@@ -185,7 +185,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:backgroundTint="@color/white"
-                        android:contentDescription="Button 1 Star"
+                        android:contentDescription="@string/button_3_star"
                         android:src="@drawable/baseline_star_border_30" />
 
                     <ImageButton
@@ -193,7 +193,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:backgroundTint="@color/white"
-                        android:contentDescription="Button 1 Star"
+                        android:contentDescription="@string/button_4_star"
                         android:src="@drawable/baseline_star_border_30" />
 
                     <ImageButton
@@ -201,7 +201,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:backgroundTint="@color/white"
-                        android:contentDescription="Button 1 Star"
+                        android:contentDescription="@string/button_5_star"
                         android:src="@drawable/baseline_star_border_30" />
                 </LinearLayout>
 
@@ -219,7 +219,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:ems="10"
-                        android:hint="Review"
+                        android:hint="@string/review"
                         android:inputType="textEmailAddress"
                         tools:ignore="SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -229,7 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:backgroundTint="@color/blue_primary"
-                    android:text="Post"
+                    android:text="@string/post"
                     android:textColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/reviewEditTextLayout" />
 
@@ -239,7 +239,7 @@
                     android:layout_height="50dp"
                     android:visibility="gone"
                     android:backgroundTint="@color/grey"
-                    android:text="Update Review"
+                    android:text="@string/update_review"
                     android:textColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/reviewEditTextLayout" />
 
@@ -249,7 +249,7 @@
                     android:layout_height="50dp"
                     android:visibility="gone"
                     android:backgroundTint="@color/blue_primary"
-                    android:text="Post Update Review"
+                    android:text="@string/post_update_review"
                     android:textColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/reviewEditTextLayout" />
 

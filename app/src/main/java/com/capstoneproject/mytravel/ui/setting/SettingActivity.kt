@@ -14,9 +14,7 @@ import com.bumptech.glide.Glide
 import com.capstoneproject.mytravel.MainActivity
 import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.databinding.ActivitySettingBinding
-import com.capstoneproject.mytravel.model.UserModel
 import com.capstoneproject.mytravel.model.UserPreference
-import com.capstoneproject.mytravel.ui.login.LoginActivity
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class SettingActivity : AppCompatActivity() {

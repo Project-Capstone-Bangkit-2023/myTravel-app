@@ -16,7 +16,6 @@ import com.capstoneproject.mytravel.BuildConfig
 import com.capstoneproject.mytravel.R
 import com.capstoneproject.mytravel.ViewModelFactory
 import com.capstoneproject.mytravel.adapter.Nearby
-import com.capstoneproject.mytravel.adapter.Place
 import com.capstoneproject.mytravel.adapter.ReviewUser
 import com.capstoneproject.mytravel.adapter.ReviewsAdapter
 import com.capstoneproject.mytravel.databinding.ActivityDetailNearbyBinding
