@@ -70,7 +70,7 @@
                     android:backgroundTint="@color/blue_primary"
                     android:drawableLeft="@drawable/baseline_location_on_24_white"
                     android:paddingVertical="5dp"
-                    android:paddingStart="5dp"
+                    android:paddingStart="2dp"
                     android:paddingEnd="5dp"
                     android:text="@string/km"
                     android:textAlignment="center"

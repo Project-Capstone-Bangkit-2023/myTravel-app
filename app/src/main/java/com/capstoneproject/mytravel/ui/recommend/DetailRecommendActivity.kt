@@ -11,12 +11,11 @@ import com.capstoneproject.mytravel.adapter.Recommend
 import com.capstoneproject.mytravel.adapter.ReviewsAdapter
 import com.capstoneproject.mytravel.databinding.ActivityDetailRecommendBinding
 
-
 @Suppress("DEPRECATION")
 class DetailRecommendActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityDetailRecommendBinding
-    private lateinit var recommendReviewsViewModel: RecommendReviewsViewModel
+    private lateinit var detailRecommendViewModel: DetailRecommendViewModel
     private lateinit var adapter: ReviewsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +35,7 @@ class DetailRecommendActivity : AppCompatActivity() {
 
         starRatingSetup()
 
-        recommendReviewsViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[RecommendReviewsViewModel::class.java]
+        detailRecommendViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailRecommendViewModel::class.java]
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvReviews.layoutManager = layoutManager

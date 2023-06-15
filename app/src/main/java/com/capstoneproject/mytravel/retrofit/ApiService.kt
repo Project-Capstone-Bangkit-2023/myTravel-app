@@ -91,4 +91,9 @@ interface ApiService {
         @Body request: RouteRequest,
     ): Call<RouteResponse>
 
+    @GET("tourisms/recomendations")
+    fun getRecommendation(
+        @Header("Authorization") token: String
+    ): Call<RecommendResponse>
+
 }

@@ -84,6 +84,8 @@ class PlaceAdapter(private val context: Context, private val listPlace: List<Pla
         holder.tvName.text = name
         holder.tvAddress.text = city
         holder.tvRating.text = formatRating
+        println(lat)
+        println(lon)
         if (lat != null && lon != null) {
             getTemperature(lat,lon)
         }

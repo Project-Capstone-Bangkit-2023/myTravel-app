@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.capstoneproject.mytravel.BuildConfig
 import com.capstoneproject.mytravel.adapter.Nearby
 import com.capstoneproject.mytravel.model.UserModel
 import com.capstoneproject.mytravel.model.UserPreference
@@ -35,6 +36,7 @@ class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
 
     companion object{
         private const val TAG = "Nearby View Model"
+        private const val API_KEY = BuildConfig.API_KEY
     }
 
     fun findPlaces(lat: Double, lon: Double, token: String, fieldMask: String) {
@@ -45,8 +47,6 @@ class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
-
-        val key = "AIzaSyBBKT7JHh0AB8Ny_0swu2G8UgPenq5Zuv8"
 
         _isLoading.value = true
         val client = ApiConfig.getApiService().getAllPlace(token)
@@ -70,7 +70,7 @@ class NearbyViewModel(private val pref: UserPreference) : ViewModel()  {
                                 Origin(Location(LatLng(lat, lon))),
                                 Destination(Location(LatLng(latDestination, lonDestination)))
                             )
-                            val clientRoute = apiService.computeRoute(key, fieldMask , request)
+                            val clientRoute = apiService.computeRoute(API_KEY, fieldMask , request)
                             clientRoute.enqueue(object : Callback<RouteResponse> {
                                 override fun onResponse(
                                     call: Call<RouteResponse>,

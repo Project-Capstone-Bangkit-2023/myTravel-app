@@ -27,10 +27,6 @@ class HomeViewModel(private val pref: UserPreference) : ViewModel() {
 
     var failureToast = MutableLiveData<Boolean?>()
 
-    companion object{
-        private const val TAG = "HomeViewModel"
-    }
-
     fun findPlaces(token: String, txtQuery : String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().searchPlace(token, txtQuery)
