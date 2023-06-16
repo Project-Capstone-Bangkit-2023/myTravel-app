@@ -98,7 +98,7 @@ class DetailNearbyActivity : AppCompatActivity() {
                     if(it){
                         Toast.makeText(
                             this,
-                            "Your review is posted. Thank you! ",
+                            getString(R.string.review_success),
                             Toast.LENGTH_SHORT
                         ).show()
                         binding.reviewEditText.clearFocus()
@@ -113,7 +113,7 @@ class DetailNearbyActivity : AppCompatActivity() {
             if(review != null){
                 val reviewId = review.id
                 val tourismId = review.tourismId
-                binding.tvReviewTitle.text = "Your Review"
+                binding.tvReviewTitle.text = getString(R.string.your_review)
                 binding.reviewEditText.setText(review.review.toString())
                 binding.reviewEditText.isEnabled = false
                 binding.btnSubmitReview.visibility = View.GONE

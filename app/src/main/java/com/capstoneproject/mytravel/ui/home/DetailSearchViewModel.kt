@@ -79,7 +79,7 @@ class DetailSearchViewModel(private val pref: UserPreference) : ViewModel() {
         })
     }
 
-    fun postUpdateReview(token: String, tourismId: Int, reviewId: Int, rating: Int, review: String) {
+    fun postUpdateReview(token: String, tourismId: Int, reviewId: Int, rating: Int, review: String, userId: Int) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().postUpdateReview(token, tourismId, reviewId, rating, review)
         client.enqueue(object : Callback<UpdateReviewResponse> {
@@ -90,6 +90,7 @@ class DetailSearchViewModel(private val pref: UserPreference) : ViewModel() {
                 if(response.isSuccessful){
                     _isLoading.value = false
                     _isPostSuccess.value = response.isSuccessful
+                    getReviews(token, tourismId, userId)
                 }else{
                     _isLoading.value = false
                     _isPostSuccess.value = response.isSuccessful

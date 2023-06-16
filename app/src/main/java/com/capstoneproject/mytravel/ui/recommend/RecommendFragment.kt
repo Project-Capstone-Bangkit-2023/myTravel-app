@@ -28,7 +28,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class RecommendFragment : Fragment() {
 
     private var _binding: FragmentRecommendBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var recommendViewModel: RecommendViewModel
     private lateinit var adapter: PlaceAdapter
 
@@ -39,14 +39,14 @@ class RecommendFragment : Fragment() {
     ): View {
 
         _binding = FragmentRecommendBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val layoutManager = LinearLayoutManager(requireContext())
-        binding.rvRecommend.layoutManager = layoutManager
+        binding?.rvRecommend?.layoutManager = layoutManager
 
         setupViewModel()
 
@@ -73,10 +73,9 @@ class RecommendFragment : Fragment() {
             val price = i.price
             val place = Place(id,name, category, photo, city, rating, price, desc, lat, lon, 0.0)
             listPlace.add(place)
-            println(listPlace)
         }
         adapter = PlaceAdapter(requireContext(), listPlace.sortedByDescending { it.rating })
-        binding.rvRecommend.adapter = adapter
+        binding?.rvRecommend?.adapter = adapter
         adapter.setOnItemClickCallback(object : PlaceAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Place) {
                 val intentToDetail = Intent(requireActivity(), DetailSearchActivity::class.java)
@@ -97,9 +96,9 @@ class RecommendFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
+            binding?.progressBar?.visibility = View.VISIBLE
         } else {
-            binding.progressBar.visibility = View.GONE
+            binding?.progressBar?.visibility = View.GONE
         }
     }
 

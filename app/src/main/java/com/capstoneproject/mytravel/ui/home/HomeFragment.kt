@@ -185,7 +185,6 @@ class HomeFragment : Fragment(){
             val price = i.price
             val place = Place(id,name, category, photo, city, rating, price, desc, lat, lon, 0.0)
             listPlace.add(place)
-            println(listPlace)
         }
         adapter = PlaceAdapter(requireContext(), listPlace)
         binding.rvPlace.adapter = adapter
@@ -193,7 +192,6 @@ class HomeFragment : Fragment(){
             override fun onItemClicked(data: Place) {
                 val intentToDetail = Intent(requireActivity(), DetailSearchActivity::class.java)
                 intentToDetail.putExtra("DATA", data)
-                println(data)
                 startActivity(intentToDetail)
             }
         })

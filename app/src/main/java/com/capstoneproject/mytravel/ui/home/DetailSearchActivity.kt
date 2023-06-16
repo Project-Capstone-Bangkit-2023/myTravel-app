@@ -23,6 +23,7 @@ import com.capstoneproject.mytravel.model.UserPreference
 import com.capstoneproject.mytravel.retrofit.TourismRatingItem
 import com.capstoneproject.mytravel.retrofit.WeatherResponse
 import com.capstoneproject.mytravel.retrofit.WeatherService
+import com.capstoneproject.mytravel.ui.nearby.DetailNearbyActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,8 +82,6 @@ class DetailSearchActivity : AppCompatActivity() {
             detailSearchViewModel.getReviews(token, id, userId)
         }
 
-        detailSearchViewModel.review.observe(this) {getReview(it)}
-
         val lat = data.lat!!.toDouble()
         val lon = data.lon!!.toDouble()
         
@@ -104,52 +103,106 @@ class DetailSearchActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         binding.reviewEditText.clearFocus()
-                        binding.tvReviewTitle.text = getString(R.string.your_review)
-                        binding.reviewEditText.isEnabled = false
-                        binding.btnUpdateReview.visibility = View.VISIBLE
-                        binding.btnUpdateReview.setOnClickListener{
-                            binding.reviewEditText.isEnabled = true
-                            binding.btnUpdateReview.visibility = View.GONE
-                            binding.btnPostUpdateReview.visibility = View.VISIBLE
-                        }
-
-                        detailSearchViewModel.getUser().observe(this){user ->
-                            detailSearchViewModel.getReviews(user.token, id, user.userId)
-                            detailSearchViewModel.review.observe(this){itemRating ->
-                                val tourismId = itemRating.tourismId
-                                val reviewId = itemRating.id
-                                binding.btnPostUpdateReview.setOnClickListener{
-                                    val reviewUpdate = binding.reviewEditText.text.toString()
-                                    detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, reviewUpdate)
-                                    recreate()
-                                }
-                            }
-                        }
+                        recreate()
                     }
                 }
             }
             binding.topProgressBar.visibility = View.VISIBLE
         }
+
+        binding.btnSubmitReview.setOnClickListener{
+            detailSearchViewModel.getUser().observe(this){ user ->
+                val idUser = user.userId
+                val review = binding.reviewEditText.text.toString()
+                val rating = EXTRA_RATING
+                val token = user.token
+                detailSearchViewModel.postReview(token, id, idUser, rating, review)
+                detailSearchViewModel.isPostSuccess.observe(this){
+                    if(it){
+                        Toast.makeText(
+                            this,
+                            getString(R.string.review_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        binding.reviewEditText.clearFocus()
+                        recreate()
+                    }
+                }
+            }
+            binding.topProgressBar.visibility = View.VISIBLE
+        }
+
+        detailSearchViewModel.review.observe(this) {review ->
+            if(review != null){
+                val reviewId = review.id
+                val tourismId = review.tourismId
+                binding.tvReviewTitle.text = getString(R.string.your_review)
+                binding.reviewEditText.setText(review.review.toString())
+                binding.reviewEditText.isEnabled = false
+                binding.btnSubmitReview.visibility = View.GONE
+                binding.btnUpdateReview.visibility = View.VISIBLE
+                binding.btnUpdateReview.setOnClickListener{
+                    binding.reviewEditText.isEnabled = true
+                    binding.btnUpdateReview.visibility = View.GONE
+                    binding.btnPostUpdateReview.visibility = View.VISIBLE
+                }
+                detailSearchViewModel.getUser().observe(this){
+                    val token = it.token
+                    val userId = it.userId
+                    binding.btnPostUpdateReview.setOnClickListener{
+                        val updateReview = binding.reviewEditText.text.toString()
+                        detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, updateReview, userId)
+                        recreate()
+                    }
+                }
+                setStar(review.rating)
+            }
+        }
+
+
     }
 
-    private fun getReview(item: TourismRatingItem){
-        val reviewId = item.id
-        val tourismId = item.tourismId
-        binding.tvReviewTitle.text = getString(R.string.your_review)
-        binding.reviewEditText.setText(item.review.toString())
-        binding.reviewEditText.isEnabled = false
-        binding.btnSubmitReview.visibility = View.GONE
-        binding.btnUpdateReview.visibility = View.VISIBLE
-        binding.btnUpdateReview.setOnClickListener{
-            binding.reviewEditText.isEnabled = true
-            binding.btnUpdateReview.visibility = View.GONE
-            binding.btnPostUpdateReview.visibility = View.VISIBLE
-        }
-        detailSearchViewModel.getUser().observe(this){
-            val token = it.token
-            binding.btnPostUpdateReview.setOnClickListener{
-                val review = binding.reviewEditText.text.toString()
-                detailSearchViewModel.postUpdateReview(token, tourismId, reviewId, EXTRA_RATING, review)
+    private fun setStar(rating: Int){
+        when (rating) {
+            1 -> {
+                buttonEnableOneStar()
+                buttonDisableTwoStar()
+                buttonDisableThreeStar()
+                buttonDisableFourStar()
+                buttonDisableFiveStar()
+                EXTRA_RATING = 1
+            }
+            2 -> {
+                buttonEnableOneStar()
+                buttonEnableTwoStar()
+                buttonDisableThreeStar()
+                buttonDisableFourStar()
+                buttonDisableFiveStar()
+                EXTRA_RATING = 2
+            }
+            3 -> {
+                buttonEnableOneStar()
+                buttonEnableTwoStar()
+                buttonEnableThreeStar()
+                buttonDisableFourStar()
+                buttonDisableFiveStar()
+                EXTRA_RATING = 3
+            }
+            4 -> {
+                buttonEnableOneStar()
+                buttonEnableTwoStar()
+                buttonEnableThreeStar()
+                buttonEnableFourStar()
+                buttonDisableFiveStar()
+                EXTRA_RATING = 4
+            }
+            5 -> {
+                buttonEnableOneStar()
+                buttonEnableTwoStar()
+                buttonEnableThreeStar()
+                buttonEnableFourStar()
+                buttonEnableFiveStar()
+                EXTRA_RATING = 5
             }
         }
     }
