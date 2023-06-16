@@ -26,3 +26,6 @@ Android Studio
 
 ## Language
 - Kotlin 
+
+## Min. Android ver :
+13
